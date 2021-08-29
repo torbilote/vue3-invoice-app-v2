@@ -1,25 +1,52 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import Home from '../views/Home.vue';
+import InvoiceDetails from '../views/InvoiceDetails.vue';
+import AddInvoice from '../views/AddInvoice.vue';
+import EditInvoice from '../views/EditInvoice.vue';
 
 const routes = [
   {
     path: '/',
     name: 'Home',
     component: Home,
+    meta: {
+      title: 'Home',
+    },
   },
   {
-    path: '/about',
-    name: 'About',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/About.vue'),
+    path: '/details/:invoiceId',
+    name: 'Invoice Details',
+    component: InvoiceDetails,
+    meta: {
+      title: 'Details',
+    },
+  },
+  {
+    path: '/new-invoice',
+    name: 'Add Invoice',
+    component: AddInvoice,
+    meta: {
+      title: 'Add Invoice',
+    },
+  },
+  {
+    path: '/edit-invoice/:invoiceId',
+    name: 'Edit Invoice',
+    component: EditInvoice,
+    meta: {
+      title: 'Edit Invoice',
+    },
   },
 ];
 
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes,
+});
+
+router.beforeEach((to, _, next) => {
+  document.title = `Invoice Manager | ${to.meta.title}`;
+  next();
 });
 
 export default router;
