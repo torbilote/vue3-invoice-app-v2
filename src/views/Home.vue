@@ -1,7 +1,11 @@
 <template>
-  <TheCounter />
-  <TheFilters />
-  <InvoiceList />
+  <section>
+    <TheCounter />
+    <TheFilters />
+  </section>
+  <section>
+    <InvoiceList />
+  </section>
 </template>
 
 <script>
