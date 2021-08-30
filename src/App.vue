@@ -19,5 +19,10 @@ export default {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  min-height: 100vh;
+  min-width: 100vw;
+  letter-spacing: -0.05em;
+  background: -webkit-linear-gradient(180deg, rgb(32, 88, 145), rgb(8, 39, 67));
+  background: linear-gradient(180deg, rgb(32, 88, 145), rgb(8, 39, 67));
 }
 </style>
