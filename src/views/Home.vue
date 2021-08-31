@@ -3,7 +3,7 @@
     <TheCounter />
     <TheFilters />
   </section>
-  <section class="">
+  <section class="mt-10 w-11/12 mx-auto md:mr-0 md:mt-12 md:ml-26 lg:ml-32 xl:ml-40 md:w-10/12 lg:w-8/12">
     <InvoiceList />
   </section>
 </template>

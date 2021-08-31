@@ -4,7 +4,8 @@ module.exports = {
   theme: {
     backgroundColor: (theme) => ({
       ...theme('colors'),
-      'my-blue': '#0d3558',
+      'blue-filters': '#0d3558',
+      'blue-list-items': '#1b5792',
     }),
     extend: {
       margin: {
@@ -13,6 +14,12 @@ module.exports = {
       rotate: {
         '-20': '-20deg',
         20: '20deg',
+      },
+      width: {
+        '1/7': '14%',
+      },
+      fontSize: {
+        xxs: ['0.625rem', '0.75rem'],
       },
     },
   },

@@ -3,8 +3,8 @@
     <div class="flex-auto flex flex-row flex-nowrap items-center justify-start mt-2 ml-3 sm:ml-5 md:ml-5 lg:ml-6 xl:ml-7">
       <img class="max-h-full w-auto transform rotate-20" src="../assets/background_invoice.svg" alt="" />
       <div class="relative ml-2 sm:ml-4 md:ml-4 lg:ml-5 xl:ml-6">
-        <h1 class="text-base text-white font-bold sm:text-xl md:text-xl lg:text-3xl xl:text-5xl">Invoice Manager</h1>
-        <svg class="absolute w-1/2 -right-1 top-1 sm:top-3 md:top-3 lg:top-6 xl:top-11" width="232" height="39" viewBox="0 0 232 39" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <h1 class="relative z-10 text-base text-white font-bold sm:text-xl md:text-xl lg:text-3xl xl:text-5xl">Invoice Manager</h1>
+        <svg class="absolute z-20 w-1/2 -right-1 top-1 sm:top-3 md:top-3 lg:top-6 xl:top-10" width="232" height="39" viewBox="0 0 232 39" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path d="M4 35C159.893 -1.35364 218.289 1.63977 228 7.68067" stroke="#11EF5C" stroke-width="7" stroke-linecap="round" stroke-linejoin="round" />
         </svg>
       </div>
