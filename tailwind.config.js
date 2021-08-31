@@ -15,6 +15,10 @@ module.exports = {
       180: '180deg',
       270: '270deg',
     },
+    backgroundColor: (theme) => ({
+      ...theme('colors'),
+      'my-blue': '#0d3558',
+    }),
     extend: {},
   },
   variants: {

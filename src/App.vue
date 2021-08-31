@@ -21,6 +21,7 @@ export default {
   font-family: 'Poppins', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  -webkit-appearance: none;
   min-height: 100vh;
   min-width: 100vw;
   letter-spacing: -0.05em;
