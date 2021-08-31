@@ -1,9 +1,9 @@
 <template>
-  <section>
+  <section class="flex flex-nowrap flex-col items-center md:flex-row md:justify-evenly">
     <TheCounter />
     <TheFilters />
   </section>
-  <section>
+  <section class="">
     <InvoiceList />
   </section>
 </template>
