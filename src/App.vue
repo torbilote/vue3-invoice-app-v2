@@ -25,13 +25,17 @@ export default {
       '2xl': '1536px',
 */
 
+body {
+  overflow: hidden;
+}
+
 #app {
   font-family: 'Poppins', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   -webkit-appearance: none;
-  min-height: 100vh;
-  min-width: 100vw;
+  height: 120vh;
+  width: 100vw;
   letter-spacing: -0.05em;
   background: -webkit-linear-gradient(180deg, rgb(32, 88, 145), rgb(8, 39, 67));
   background: linear-gradient(180deg, rgb(32, 88, 145), rgb(8, 39, 67));
