@@ -1,8 +1,8 @@
 <template>
-  <ul class="">
+  <ul>
     <li class="relative grid grid-cols-6 text-xxs text-white pb-1 border-b-2 border-gray-300 sm:text-xs md:text-base">
       <div class="pl-2 flex flex-row">
-        <p class="">Invoice Id</p>
+        <p>Invoice Id</p>
         <svg class="w-3 sm:w-4 md:w-5 lg:w-6 h-auto" width="512" height="512" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
           <g id="arrow 1">
             <g id="a0">
@@ -12,7 +12,7 @@
         </svg>
       </div>
       <div class="flex flex-row">
-        <p class="">Due Date</p>
+        <p>Due Date</p>
         <svg class="w-3 sm:w-4 md:w-5 lg:w-6 h-auto" width="512" height="512" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
           <g id="arrow 1">
             <g id="a0">
@@ -22,7 +22,7 @@
         </svg>
       </div>
       <div class="flex flex-row">
-        <p class="">Country</p>
+        <p>Country</p>
         <svg class="w-3 sm:w-4 md:w-5 lg:w-6 h-auto" width="512" height="512" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
           <g id="arrow 1">
             <g id="a0">
@@ -32,7 +32,7 @@
         </svg>
       </div>
       <div class="flex flex-row">
-        <p class="">Zip Code</p>
+        <p>Zip Code</p>
         <svg class="w-3 sm:w-4 md:w-5 lg:w-6 h-auto" width="512" height="512" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
           <g id="arrow 1">
             <g id="a0">
@@ -42,7 +42,7 @@
         </svg>
       </div>
       <div class="flex flex-row">
-        <p class="">Total</p>
+        <p>Total</p>
         <svg class="w-3 sm:w-4 md:w-5 lg:w-6 h-auto" width="512" height="512" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
           <g id="arrow 1">
             <g id="a0">
@@ -52,7 +52,7 @@
         </svg>
       </div>
       <div class="flex flex-row">
-        <p class="">Status</p>
+        <p>Status</p>
         <svg class="w-3 sm:w-4 md:w-5 lg:w-6 h-auto" width="512" height="512" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
           <g id="arrow 1">
             <g id="a0">
@@ -77,44 +77,46 @@
         </svg>
       </div>
     </li>
-    <li class="grid grid-cols-6 text-xxs text-gray-300 py-4 sm:text-xs md:text-base bg-blue-list-items rounded-2xl my-2">
+    <li class="grid grid-cols-6 text-xxs text-gray-200 py-4 sm:text-xs md:text-base bg-blue-list-items rounded-2xl my-2">
       <div class="pl-2">
-        <p class="">#4345</p>
+        <p>#4345</p>
       </div>
-      <div class="">
-        <p class="">2021-05-12</p>
+      <div>
+        <p>2021-05-12</p>
       </div>
-      <div class="">
-        <p class="">France</p>
+      <div>
+        <p>France</p>
       </div>
-      <div class="">
-        <p class="">65152</p>
+      <div>
+        <p>65152</p>
       </div>
-      <div class="">
-        <p class="">$1800,00</p>
+      <div>
+        <p>$1800,00</p>
       </div>
-      <div class="">
-        <p class="">Pending</p>
+      <div class="relative">
+        <div class="absolute w-1 h-1 rounded-full l-0 top-1 bg-yellow-600 sm:top-1.5 md:top-2 md:w-1.5 md:h-1.5"></div>
+        <p class="ml-3">Pending</p>
       </div>
     </li>
-    <li class="grid grid-cols-6 text-xxs text-gray-300 py-4 sm:text-xs md:text-base bg-blue-list-items rounded-2xl my-2">
+    <li class="grid grid-cols-6 text-xxs text-gray-200 py-4 sm:text-xs md:text-base bg-blue-list-items rounded-2xl my-2">
       <div class="pl-2">
-        <p class="">#4345</p>
+        <p>#4345</p>
       </div>
-      <div class="">
-        <p class="">2021-05-12</p>
+      <div>
+        <p>2021-05-12</p>
       </div>
-      <div class="">
-        <p class="">France</p>
+      <div>
+        <p>France</p>
       </div>
-      <div class="">
-        <p class="">65152</p>
+      <div>
+        <p>65152</p>
       </div>
-      <div class="">
-        <p class="">$1800,00</p>
+      <div>
+        <p>$1800,00</p>
       </div>
-      <div class="">
-        <p class="">Pending</p>
+      <div class="relative">
+        <div class="absolute w-1 h-1 rounded-full l-0 top-1 bg-yellow-600 sm:top-1.5 md:top-2 md:w-1.5 md:h-1.5"></div>
+        <p class="ml-3">Pending</p>
       </div>
     </li>
   </ul>
