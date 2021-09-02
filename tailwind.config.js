@@ -6,6 +6,8 @@ module.exports = {
       ...theme('colors'),
       'blue-filters': '#0d3558',
       'blue-list-items': '#1b5792',
+      'blue-attributes': '#1b5792',
+      'blue-products': '#082743',
     }),
     extend: {
       margin: {
@@ -23,6 +25,9 @@ module.exports = {
       },
       colors: {
         'green-general': '#11EF5C',
+      },
+      height: {
+        '90vh': '90vh',
       },
     },
   },

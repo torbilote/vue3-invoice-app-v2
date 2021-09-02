@@ -34,11 +34,27 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   -webkit-appearance: none;
-  height: 120vh;
+  min-height: 130vh;
+  height: 100%;
   width: 100vw;
   letter-spacing: -0.05em;
   background: -webkit-linear-gradient(180deg, rgb(32, 88, 145), rgb(8, 39, 67));
   background: linear-gradient(180deg, rgb(32, 88, 145), rgb(8, 39, 67));
   box-sizing: border-box;
 }
+
+// input:-webkit-autofill,
+// input:-webkit-autofill:hover,
+// input:-webkit-autofill:focus,
+// textarea:-webkit-autofill,
+// textarea:-webkit-autofill:hover,
+// textarea:-webkit-autofill:focus,
+// select:-webkit-autofill,
+// select:-webkit-autofill:hover,
+// select:-webkit-autofill:focus {
+//   border: 1px solid rgb(31, 41, 55);
+//   -webkit-text-fill-color: #fff;
+//   -webkit-box-shadow: 0 0 0px 10000px rgb(31, 41, 55) inset;
+//   box-shadow: 0 0 0px 10000px rgb(31, 41, 55) inset;
+// }
 </style>
