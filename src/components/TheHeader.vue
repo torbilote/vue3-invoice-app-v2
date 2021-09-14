@@ -1,5 +1,5 @@
 <template>
-  <header class="w-screen flex flex-row flex-nowrap h-10 sm:h-16 md:h-18 lg:h-20 xl:h-24">
+  <header class="w-screen flex flex-row flex-nowrap h-10 sm:h-16 md:h-16 lg:h-20 xl:h-24">
     <div class="flex-auto flex flex-row flex-nowrap items-center justify-start mt-2 ml-3 sm:ml-5 md:ml-5 lg:ml-6 xl:ml-7">
       <img class="max-h-full w-auto transform rotate-20" src="../assets/background_invoice.svg" alt="" />
       <div class="relative ml-2 sm:ml-4 md:ml-4 lg:ml-5 xl:ml-6">

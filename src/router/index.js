@@ -8,7 +8,7 @@ const routes = [
   {
     path: '/',
     name: 'Home',
-    component: AddInvoice, // temporarily for testing
+    component: InvoiceDetails,
     meta: {
       title: 'Home',
     },

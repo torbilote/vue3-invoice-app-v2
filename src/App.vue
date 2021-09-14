@@ -26,7 +26,7 @@ export default {
 */
 
 body {
-  overflow: hidden;
+  overflow-x: hidden;
 }
 
 #app {

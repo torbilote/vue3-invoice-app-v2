@@ -1,7 +1,7 @@
 <template>
-  <form class="mt-5 overflow-y-auto">
-    <div class="w-3/5 mx-auto flex flex-col h-90vh">
-      <h2 class="text-base text-white text-center font-medium">New Invoice</h2>
+  <form class="mt-5">
+    <div class="w-4/5 lg:w-3/5 mx-auto flex flex-col lg:gap-y-2">
+      <h2 class="text-base text-white text-center font-medium sm:text-lg lg:text-xl xl:text-2xl">New Invoice</h2>
       <InvoiceAttribute :htmlType="'input'" :htmlId="'invoiceId'" :inputType="'text'" :labelText="'Invoice Id'" :disabled="true" />
       <InvoiceAttribute :htmlType="'input'" :htmlId="'invoiceDate'" :inputType="'date'" :labelText="'Invoice Date'" />
       <InvoiceAttribute :htmlType="'input'" :htmlId="'clientName'" :inputType="'text'" :labelText="'Client Name'" />
@@ -31,9 +31,9 @@
         </svg>
       </div>
       <InvoiceAttribute :htmlType="'input'" :htmlId="'invoiceTotal'" :inputType="'number'" :labelText="'Invoice Total'" :disabled="true" />
-      <div class="flex flex-row mt-10 mb-10 gap-x-2 justify-between">
-        <TheButton :buttonColor="'red'" :buttonTitle="'Cancel'" />
-        <TheButton :buttonColor="'blue'" :buttonTitle="'Create Invoice'" />
+      <div class="flex flex-row mt-10 mb-5 gap-x-2 h-10 justify-between">
+        <TheButton class="text-white text-sm px-2 py-2 sm:w-36" :buttonColor="'red'" :buttonTitle="'Cancel'" />
+        <TheButton class="text-white text-sm px-2 py-2 sm:w-36" :buttonColor="'blue'" :buttonTitle="'Create Invoice'" />
       </div>
     </div>
   </form>

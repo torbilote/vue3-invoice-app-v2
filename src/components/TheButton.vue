@@ -1,5 +1,5 @@
 <template>
-  <button type="button" :class="getColor" class="px-5 py-3 rounded-lg text-white text-sm">{{ buttonTitle }}</button>
+  <button type="button" :class="getColor" class="rounded-lg">{{ buttonTitle }}</button>
 </template>
 
 <script>
