@@ -5,6 +5,7 @@ module.exports = {
     backgroundColor: (theme) => ({
       ...theme('colors'),
       'blue-filters': '#0d3558',
+      'blue-invoice-details': '#0d3558',
       'blue-list-items': '#1b5792',
       'blue-attributes': '#1b5792',
       'blue-products': '#082743',
