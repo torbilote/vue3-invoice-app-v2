@@ -3,7 +3,7 @@
     <h2 class="text-base text-white text-center font-medium mt-2 sm:text-lg lg:text-xl xl:text-2xl">Invoice Details</h2>
     <div class="flex flex-col md:flex-row">
       <div class="flex flex-col gap-y-2 text-xs text-white sm:text-base md:text-lg my-4 ml-2 md:w-1/2">
-        <p class="">Invoice Id</p>
+        <p class="">{{ invoiceId }}</p>
         <p class="">Status</p>
         <p class="">Invoice Date</p>
         <p class="">Client Name</p>
@@ -61,6 +61,12 @@ export default {
   name: 'Invoice Details',
   components: {
     TheButton,
+  },
+  props: {
+    invoiceId: {
+      type: Number,
+      required: true,
+    },
   },
 };
 </script>

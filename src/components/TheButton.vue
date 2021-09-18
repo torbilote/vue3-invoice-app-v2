@@ -1,5 +1,5 @@
 <template>
-  <button type="button" :class="getColor" class="rounded-lg">{{ buttonTitle }}</button>
+  <button type="button" :class="getButtonColor" class="rounded-lg">{{ buttonTitle }}</button>
 </template>
 
 <script>
@@ -16,7 +16,7 @@ export default {
     },
   },
   computed: {
-    getColor() {
+    getButtonColor() {
       return {
         'bg-red-500': this.$props.buttonColor === 'red',
         'bg-green-500': this.$props.buttonColor === 'green',

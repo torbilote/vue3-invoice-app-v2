@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router';
-// import Home from '../views/Home.vue';
+import Home from '../views/Home.vue';
 import InvoiceDetails from '../views/InvoiceDetails.vue';
 import AddInvoice from '../views/AddInvoice.vue';
 import EditInvoice from '../views/EditInvoice.vue';
@@ -8,7 +8,7 @@ const routes = [
   {
     path: '/',
     name: 'Home',
-    component: EditInvoice,
+    component: Home,
     meta: {
       title: 'Home',
     },
@@ -17,6 +17,9 @@ const routes = [
     path: '/details/:invoiceId',
     name: 'Invoice Details',
     component: InvoiceDetails,
+    props: (route) => ({
+      invoiceId: parseInt(route.params.invoiceId, 10),
+    }),
     meta: {
       title: 'Details',
     },
