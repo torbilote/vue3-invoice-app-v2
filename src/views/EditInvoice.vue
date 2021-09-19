@@ -2,19 +2,19 @@
   <form class="mt-5">
     <div class="w-4/5 lg:w-3/5 mx-auto flex flex-col lg:gap-y-2">
       <h2 class="text-base text-white text-center font-medium sm:text-lg lg:text-xl xl:text-2xl">Edit Invoice</h2>
-      <InvoiceAttribute :htmlType="'input'" :htmlId="'invoiceId'" :inputType="'text'" :labelText="'Invoice Id'" :disabled="true" />
-      <InvoiceAttribute :htmlType="'input'" :htmlId="'invoiceDate'" :inputType="'date'" :labelText="'Invoice Date'" />
-      <InvoiceAttribute :htmlType="'input'" :htmlId="'clientName'" :inputType="'text'" :labelText="'Client Name'" />
-      <InvoiceAttribute :htmlType="'input'" :htmlId="'clientEmail'" :inputType="'email'" :labelText="'Client Email'" />
-      <InvoiceAttribute :htmlType="'input'" :htmlId="'clientStreetAddress'" :inputType="'text'" :labelText="'Client Street Address'" />
-      <InvoiceAttribute :htmlType="'input'" :htmlId="'clientCity'" :inputType="'text'" :labelText="'Client City'" />
-      <InvoiceAttribute :htmlType="'input'" :htmlId="'clientZipCode'" :inputType="'text'" :labelText="'Client Zip Code'" />
-      <InvoiceAttribute :htmlType="'select'" :htmlId="'clientCountry'" :selectType="'country'" :labelText="'Client Country'" />
-      <InvoiceAttribute :htmlType="'textarea'" :htmlId="'clientNote'" :selectType="'country'" :labelText="'Client Note'" />
-      <InvoiceAttribute :htmlType="'select'" :htmlId="'paymentTerms'" :selectType="'paymentTerms'" :labelText="'Payment Terms'" />
-      <InvoiceAttribute :htmlType="'input'" :htmlId="'paymentDate'" :inputType="'date'" :labelText="'Payment Date'" :disabled="true" />
+      <InvoiceAttribute v-model="localInvoice.invoiceId" :htmlType="'input'" :htmlId="'invoiceId'" :inputType="'text'" :labelText="'Invoice Id'" :htmlDisabled="true" />
+      <InvoiceAttribute v-model="localInvoice.invoiceDate" :htmlType="'input'" :htmlId="'invoiceDate'" :inputType="'date'" :labelText="'Invoice Date'" />
+      <InvoiceAttribute v-model="localInvoice.clientName" :htmlType="'input'" :htmlId="'clientName'" :inputType="'text'" :labelText="'Client Name'" />
+      <InvoiceAttribute v-model="localInvoice.clientEmail" :htmlType="'input'" :htmlId="'clientEmail'" :inputType="'email'" :labelText="'Client Email'" />
+      <InvoiceAttribute v-model="localInvoice.clientStreetAddress" :htmlType="'input'" :htmlId="'clientStreetAddress'" :inputType="'text'" :labelText="'Client Street Address'" />
+      <InvoiceAttribute v-model="localInvoice.clientCity" :htmlType="'input'" :htmlId="'clientCity'" :inputType="'text'" :labelText="'Client City'" />
+      <InvoiceAttribute v-model="localInvoice.clientZipCode" :htmlType="'input'" :htmlId="'clientZipCode'" :inputType="'text'" :labelText="'Client Zip Code'" />
+      <InvoiceAttribute v-model="localInvoice.clientCountry" :htmlType="'select'" :htmlId="'clientCountry'" :selectType="'country'" :labelText="'Client Country'" />
+      <InvoiceAttribute v-model="localInvoice.clientNote" :htmlType="'textarea'" :htmlId="'clientNote'" :selectType="'country'" :labelText="'Client Note'" />
+      <InvoiceAttribute v-model="localInvoice.paymentTerms" :htmlType="'select'" :htmlId="'paymentTerms'" :selectType="'paymentTerms'" :labelText="'Payment Terms'" />
+      <InvoiceAttribute v-model="localInvoice.paymentDate" :htmlType="'input'" :htmlId="'paymentDate'" :inputType="'date'" :labelText="'Payment Date'" :htmlDisabled="true" />
       <h3 class="mt-5 text-sm text-white text-left font-medium">Products</h3>
-      <InvoiceProduct />
+      <InvoiceProduct v-for="product in invoice.productsList" :key="product.itemId" :itemName="product.itemName" :itemQuantity="product.itemQuantity" :unitPrice="product.unitPrice" :itemTotal="product.itemTotal" />
       <div class="mt-3 flex justify-start">
         <svg class="h-auto w-7 cursor-pointer" width="29" height="28" viewBox="0 0 29 28" fill="none" xmlns="http://www.w3.org/2000/svg">
           <g id="a0">
@@ -30,16 +30,17 @@
           </g>
         </svg>
       </div>
-      <InvoiceAttribute :htmlType="'input'" :htmlId="'invoiceTotal'" :inputType="'number'" :labelText="'Invoice Total'" :disabled="true" />
+      <InvoiceAttribute v-model="localInvoice.invoiceTotal" :htmlType="'input'" :htmlId="'invoiceTotal'" :inputType="'number'" :labelText="'Invoice Total'" :htmlDisabled="true" />
       <div class="flex flex-row mt-10 mb-5 gap-x-2 h-10 justify-between">
-        <TheButton class="text-white text-sm px-2 py-2 sm:w-36 hover:bg-red-400" :buttonColor="'red'" :buttonTitle="'Cancel'" />
-        <TheButton class="text-white text-sm px-2 py-2 sm:w-36 hover:bg-blue-400" :buttonColor="'blue'" :buttonTitle="'Create Invoice'" />
+        <TheButton @click="backToInvoiceDetails" class="text-white text-sm px-2 py-2 sm:w-36 hover:bg-red-400" :buttonColor="'red'" :buttonTitle="'Cancel'" />
+        <TheButton @click="goToInvoiceDetails" class="text-white text-sm px-2 py-2 sm:w-36 hover:bg-blue-400" :buttonColor="'blue'" :buttonTitle="'Save Changes'" />
       </div>
     </div>
   </form>
 </template>
 
 <script>
+import { mapGetters, mapActions } from 'vuex';
 import InvoiceAttribute from '../components/InvoiceAttribute.vue';
 import InvoiceProduct from '../components/InvoiceProduct.vue';
 import TheButton from '../components/TheButton.vue';
@@ -50,6 +51,46 @@ export default {
     InvoiceAttribute,
     InvoiceProduct,
     TheButton,
+  },
+  props: {
+    invoiceId: {
+      type: Number,
+      required: true,
+    },
+  },
+  data() {
+    return {
+      invoice: null,
+      localInvoice: null,
+    };
+  },
+  computed: {
+    ...mapGetters(['getInvoiceDatabaseAll']),
+  },
+  methods: {
+    ...mapActions(['updateInvoiceDatabase']),
+    backToInvoiceDetails() {
+      this.$router.push({
+        name: 'Invoice Details',
+        params: {
+          invoiceId: this.invoice.invoiceId,
+        },
+      });
+    },
+    goToInvoiceDetails() {
+      this.updateInvoiceDatabase(this.localInvoice);
+
+      this.$router.push({
+        name: 'Invoice Details',
+        params: {
+          invoiceId: this.invoice.invoiceId,
+        },
+      });
+    },
+  },
+  created() {
+    [this.invoice] = this.getInvoiceDatabaseAll.filter((inv) => inv.invoiceId === this.invoiceId);
+    this.localInvoice = { ...this.invoice };
   },
 };
 </script>

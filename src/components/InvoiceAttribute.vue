@@ -1,8 +1,8 @@
 <template>
   <div class="mt-3 flex flex-col">
     <label :for="htmlId" class="text-sm text-white font-extralight mb-1 lg:text-base"> {{ labelText }}</label>
-    <input v-if="this.$props.htmlType === 'input'" :id="htmlId" :type="inputType" :class="isInputDisabled" class="py-0.5 px-1 text-white text-sm rounded-md border border-gray-800 font-light lg:text-base" :disabled="htmlDisabled" />
-    <select v-else-if="this.$props.htmlType === 'select'" :id="htmlId" :class="isInputDisabled" class="py-0.5 px-1 text-white text-sm rounded-md border border-gray-800 font-light lg:text-base" :disabled="htmlDisabled">
+    <input @input="$emit('update:modelValue', $event.target.value)" v-if="this.$props.htmlType === 'input'" :id="htmlId" :type="inputType" :value="modelValue" :class="isHtmlDisabled" class="py-0.5 px-1 text-white text-sm rounded-md border border-gray-800 font-light lg:text-base" :disabled="htmlDisabled" />
+    <select @input="$emit('update:modelValue', $event.target.value)" v-else-if="this.$props.htmlType === 'select'" :id="htmlId" :value="modelValue" :class="isHtmlDisabled" class="py-0.5 px-1 text-white text-sm rounded-md border border-gray-800 font-light lg:text-base" :disabled="htmlDisabled">
       <template v-if="this.$props.selectType === 'country'">
         <option value="Country" selected disabled>*Select country*</option>
         <option value="France">France</option>
@@ -15,7 +15,7 @@
         <option value="Payment60">Payment in 60 days</option>
       </template>
     </select>
-    <textarea v-else :id="htmlId" rows="5" maxlength="150" :class="isInputDisabled" class="resize-none py-0.5 px-1 text-white text-sm rounded-md border border-gray-800 font-light lg:text-base" :disabled="htmlDisabled"></textarea>
+    <textarea @input="$emit('update:modelValue', $event.target.value)" v-else :id="htmlId" rows="5" maxlength="150" :value="modelValue" :class="isHtmlDisabled" class="resize-none py-0.5 px-1 text-white text-sm rounded-md border border-gray-800 font-light lg:text-base" :disabled="htmlDisabled"></textarea>
   </div>
 </template>
 
@@ -46,13 +46,19 @@ export default {
     htmlDisabled: {
       type: Boolean,
       required: false,
+      default: false,
+    },
+    modelValue: {
+      type: [String, Number, Date],
+      required: false,
+      default: '',
     },
   },
   computed: {
-    isInputDisabled() {
+    isHtmlDisabled() {
       return {
         'bg-blue-attributes': !this.$props.htmlDisabled,
-        'bg-gray-400': this.$props.htmlDisabled,
+        'bg-gray-500': this.$props.htmlDisabled,
       };
     },
   },

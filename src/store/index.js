@@ -6,7 +6,7 @@ export default createStore({
       {
         invoiceId: 4345,
         invoiceStatus: 'Pending',
-        invoiceDate: new Date('2021-04-12').toLocaleDateString(),
+        invoiceDate: '2021-04-12',
         clientName: 'Norbert',
         clientEmail: 'norbert@abc.com',
         clientStreetAddress: 'Wall Street 5/3',
@@ -14,19 +14,19 @@ export default createStore({
         clientZipCode: 65152,
         clientCountry: 'France',
         clientNote: 'Please use strong package.',
-        paymentTerms: '30days',
-        paymentDate: new Date('2021-05-12').toLocaleDateString(),
+        paymentTerms: 'Payment30',
+        paymentDate: '2021-05-12',
         productsList: [
           {
             itemId: 101,
-            itemName: 'Black Paint',
+            itemName: 'Black',
             itemQuantity: 5,
             unitPrice: 4.99,
             itemTotal: 24.95,
           },
           {
             itemId: 102,
-            itemName: 'Yellow Paint',
+            itemName: 'Blue',
             itemQuantity: 3,
             unitPrice: 4.99,
             itemTotal: 14.97,
@@ -37,7 +37,7 @@ export default createStore({
       {
         invoiceId: 4346,
         invoiceStatus: 'Paid',
-        invoiceDate: new Date('2021-03-12').toLocaleDateString(),
+        invoiceDate: '2021-03-12',
         clientName: 'Justyna',
         clientEmail: 'justyna@abc.com',
         clientStreetAddress: 'Wood Street 1/2',
@@ -45,19 +45,19 @@ export default createStore({
         clientZipCode: 12178,
         clientCountry: 'Spain',
         clientNote: 'Please use eco package.',
-        paymentTerms: '60days',
-        paymentDate: new Date('2021-05-11').toLocaleDateString(),
+        paymentTerms: 'Payment60',
+        paymentDate: '2021-05-11',
         productsList: [
           {
             itemId: 101,
-            itemName: 'Black Paint',
+            itemName: 'Black',
             itemQuantity: 1,
             unitPrice: 4.99,
             itemTotal: 4.99,
           },
           {
             itemId: 102,
-            itemName: 'Yellow Paint',
+            itemName: 'Blue',
             itemQuantity: 1,
             unitPrice: 4.99,
             itemTotal: 4.99,
@@ -72,6 +72,17 @@ export default createStore({
       return state.invoiceDatabase;
     },
   },
-  mutations: {},
-  actions: {},
+  mutations: {
+    updateInvoiceDatabase(state, payload) {
+      const index = state.invoiceDatabase.findIndex((inv) => inv.invoiceId === payload.invoiceId);
+      if (index !== -1) {
+        state.invoiceDatabase[index] = payload;
+      }
+    },
+  },
+  actions: {
+    updateInvoiceDatabase(context, payload) {
+      context.commit('updateInvoiceDatabase', payload);
+    },
+  },
 });

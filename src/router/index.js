@@ -36,6 +36,9 @@ const routes = [
     path: '/edit-invoice/:invoiceId',
     name: 'Edit Invoice',
     component: EditInvoice,
+    props: (route) => ({
+      invoiceId: parseInt(route.params.invoiceId, 10),
+    }),
     meta: {
       title: 'Edit Invoice',
     },

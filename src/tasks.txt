@@ -1,1 +1,2 @@
 DONE 1. Display Invoice Details (Home -> Invoice Details)
+DONE 2. Display Edit Invoice (Invoice Details -> Edit Invoice)

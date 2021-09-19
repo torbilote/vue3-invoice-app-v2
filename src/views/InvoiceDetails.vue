@@ -35,8 +35,8 @@
       </div>
     </div>
     <div class="flex flex-row justify-around my-6">
-      <TheButton class="text-xs text-white sm:text-base md:text-lg px-2 py-2 sm:w-36 hover:bg-red-400" :buttonColor="'red'" :buttonTitle="'Back'" />
-      <TheButton class="text-xs text-white sm:text-base md:text-lg px-2 py-2 sm:w-36 hover:bg-blue-400" :buttonColor="'blue'" :buttonTitle="'Edit Invoice'" />
+      <TheButton @click="goToHome" class="text-xs text-white sm:text-base md:text-lg px-2 py-2 sm:w-36 hover:bg-red-400" :buttonColor="'red'" :buttonTitle="'Back'" />
+      <TheButton @click="goToEditInvoice" class="text-xs text-white sm:text-base md:text-lg px-2 py-2 sm:w-36 hover:bg-blue-400" :buttonColor="'blue'" :buttonTitle="'Edit Invoice'" />
     </div>
   </section>
 </template>
@@ -63,6 +63,21 @@ export default {
   },
   computed: {
     ...mapGetters(['getInvoiceDatabaseAll']),
+  },
+  methods: {
+    goToHome() {
+      this.$router.push({
+        name: 'Home',
+      });
+    },
+    goToEditInvoice() {
+      this.$router.push({
+        name: 'Edit Invoice',
+        params: {
+          invoiceId: this.invoice.invoiceId,
+        },
+      });
+    },
   },
   created() {
     [this.invoice] = this.getInvoiceDatabaseAll.filter((inv) => inv.invoiceId === this.invoiceId);
