@@ -3,17 +3,17 @@
     <h2 class="text-base text-white text-center font-medium mt-2 sm:text-lg lg:text-xl xl:text-2xl">Invoice Details</h2>
     <div class="flex flex-col md:flex-row">
       <div class="flex flex-col gap-y-2 text-xs text-white sm:text-base md:text-lg my-4 ml-2 md:w-1/2">
-        <p class="">{{ invoiceId }}</p>
-        <p class="">Status</p>
-        <p class="">Invoice Date</p>
-        <p class="">Client Name</p>
-        <p class="">Client Email</p>
-        <p class="">Client Street Address</p>
-        <p class="">Client City</p>
-        <p class="">Client Zip Code</p>
-        <p class="">Client Country</p>
-        <p class="">Client Note</p>
-        <p class="">Payment Date</p>
+        <p class="">{{ invoice.invoiceId }}</p>
+        <p class="">{{ invoice.invoiceStatus }}</p>
+        <p class="">{{ invoice.invoiceDate }}</p>
+        <p class="">{{ invoice.clientName }}</p>
+        <p class="">{{ invoice.clientEmail }}</p>
+        <p class="">{{ invoice.clientStreetAddress }}</p>
+        <p class="">{{ invoice.clientCity }}</p>
+        <p class="">{{ invoice.clientZipCode }}</p>
+        <p class="">{{ invoice.clientCountry }}</p>
+        <p class="">{{ invoice.clientNote }}</p>
+        <p class="">{{ invoice.paymentDate }}</p>
       </div>
       <div class="bg-blue-list-items rounded-2xl md:mt-4 md:w-1/2 h-full max-h-">
         <div class="text-xs text-white sm:text-base md:text-base my-4 ml-2">
@@ -24,29 +24,16 @@
               <p>Quantity</p>
               <p>Item Total</p>
             </li>
-            <li class="grid grid-cols-4">
-              <p>Black Paint</p>
-              <p>4.99</p>
-              <p>5</p>
-              <p>24.96</p>
-            </li>
-            <li class="grid grid-cols-4">
-              <p>Blue Paint</p>
-              <p>4.99</p>
-              <p>5</p>
-              <p>24.96</p>
-            </li>
-            <li class="grid grid-cols-4">
-              <p>Blue Paint</p>
-              <p>4.99</p>
-              <p>5</p>
-              <p>24.96</p>
+            <li v-for="product in invoice.productsList" :key="product.itemId" class="grid grid-cols-4">
+              <p>{{ product.itemName }}</p>
+              <p>{{ product.itemQuantity }}</p>
+              <p>{{ product.unitPrice }}</p>
+              <p>{{ product.itemTotal }}</p>
             </li>
           </ul>
         </div>
       </div>
     </div>
-
     <div class="flex flex-row justify-around my-6">
       <TheButton class="text-xs text-white sm:text-base md:text-lg px-2 py-2 sm:w-36 hover:bg-red-400" :buttonColor="'red'" :buttonTitle="'Back'" />
       <TheButton class="text-xs text-white sm:text-base md:text-lg px-2 py-2 sm:w-36 hover:bg-blue-400" :buttonColor="'blue'" :buttonTitle="'Edit Invoice'" />
@@ -55,6 +42,7 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
 import TheButton from '../components/TheButton.vue';
 
 export default {
@@ -67,6 +55,17 @@ export default {
       type: Number,
       required: true,
     },
+  },
+  data() {
+    return {
+      invoice: null,
+    };
+  },
+  computed: {
+    ...mapGetters(['getInvoiceDatabaseAll']),
+  },
+  created() {
+    [this.invoice] = this.getInvoiceDatabaseAll.filter((inv) => inv.invoiceId === this.invoiceId);
   },
 };
 </script>
