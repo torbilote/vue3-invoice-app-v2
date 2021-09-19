@@ -79,7 +79,6 @@ export default {
     },
     goToInvoiceDetails() {
       this.updateInvoiceDatabase(this.localInvoice);
-
       this.$router.push({
         name: 'Invoice Details',
         params: {
