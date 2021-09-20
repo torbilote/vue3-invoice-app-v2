@@ -2,19 +2,26 @@
   <form class="mt-5">
     <div class="w-4/5 lg:w-3/5 mx-auto flex flex-col lg:gap-y-2">
       <h2 class="text-base text-white text-center font-medium sm:text-lg lg:text-xl xl:text-2xl">Edit Invoice</h2>
-      <InvoiceAttribute v-model="localInvoice.invoiceId" :htmlType="'input'" :htmlId="'invoiceId'" :inputType="'text'" :labelText="'Invoice Id'" :htmlDisabled="true" />
-      <InvoiceAttribute v-model="localInvoice.invoiceDate" :htmlType="'input'" :htmlId="'invoiceDate'" :inputType="'date'" :labelText="'Invoice Date'" />
-      <InvoiceAttribute v-model="localInvoice.clientName" :htmlType="'input'" :htmlId="'clientName'" :inputType="'text'" :labelText="'Client Name'" />
-      <InvoiceAttribute v-model="localInvoice.clientEmail" :htmlType="'input'" :htmlId="'clientEmail'" :inputType="'email'" :labelText="'Client Email'" />
-      <InvoiceAttribute v-model="localInvoice.clientStreetAddress" :htmlType="'input'" :htmlId="'clientStreetAddress'" :inputType="'text'" :labelText="'Client Street Address'" />
-      <InvoiceAttribute v-model="localInvoice.clientCity" :htmlType="'input'" :htmlId="'clientCity'" :inputType="'text'" :labelText="'Client City'" />
-      <InvoiceAttribute v-model="localInvoice.clientZipCode" :htmlType="'input'" :htmlId="'clientZipCode'" :inputType="'text'" :labelText="'Client Zip Code'" />
-      <InvoiceAttribute v-model="localInvoice.clientCountry" :htmlType="'select'" :htmlId="'clientCountry'" :selectType="'country'" :labelText="'Client Country'" />
-      <InvoiceAttribute v-model="localInvoice.clientNote" :htmlType="'textarea'" :htmlId="'clientNote'" :selectType="'country'" :labelText="'Client Note'" />
-      <InvoiceAttribute v-model="localInvoice.paymentTerms" :htmlType="'select'" :htmlId="'paymentTerms'" :selectType="'paymentTerms'" :labelText="'Payment Terms'" />
-      <InvoiceAttribute v-model="localInvoice.paymentDate" :htmlType="'input'" :htmlId="'paymentDate'" :inputType="'date'" :labelText="'Payment Date'" :htmlDisabled="true" />
+      <InvoiceAttributeInput v-model="localInvoice.invoiceId" :inputType="'input'" :htmlId="'invoiceId'" :labelText="'Invoice Id'" :isOff="true" />
+      <InvoiceAttributeInput v-model="localInvoice.invoiceDate" :inputType="'date'" :htmlId="'invoiceDate'" :labelText="'Invoice Date'" />
+      <InvoiceAttributeInput v-model="localInvoice.clientName" :inputType="'text'" :htmlId="'clientName'" :labelText="'Client Name'" />
+      <InvoiceAttributeInput v-model="localInvoice.clientEmail" :inputType="'email'" :htmlId="'clientEmail'" :labelText="'Client Email'" />
+      <InvoiceAttributeInput v-model="localInvoice.clientStreetAddress" :inputType="'text'" :htmlId="'clientStreetAddress'" :labelText="'Client Street Address'" />
+      <InvoiceAttributeInput v-model="localInvoice.clientCity" :inputType="'text'" :htmlId="'clientCity'" :labelText="'Client City'" />
+      <InvoiceAttributeInput v-model="localInvoice.clientZipCode" :inputType="'text'" :htmlId="'clientZipCode'" :labelText="'Client Zip Code'" />
+      <InvoiceAttributeSelect v-model="localInvoice.clientCountry" optionPlaceholder="'*Select country*'" :optionList="getAttributeSelectOptions[0]" :htmlId="'clientCountry'" :labelText="'Client Country'" />
+      <InvoiceAttributeTextArea v-model="localInvoice.clientNote" :htmlId="'clientNote'" :labelText="'Client Note'" />
+      <InvoiceAttributeSelect v-model="localInvoice.paymentTerms" optionPlaceholder="'*Select payment*'" :optionList="getAttributeSelectOptions[1]" :htmlId="'paymentTerms'" :labelText="'Payment Terms'" />
+      <InvoiceAttributeInput v-model="localInvoice.paymentDate" :inputType="'date'" :htmlId="'paymentDate'" :labelText="'Payment Date'" :isOff="true" />
       <h3 class="mt-5 text-sm text-white text-left font-medium">Products</h3>
-      <InvoiceProduct v-for="product in invoice.productsList" :key="product.itemId" :itemName="product.itemName" :itemQuantity="product.itemQuantity" :unitPrice="product.unitPrice" :itemTotal="product.itemTotal" />
+      <div v-for="product in localInvoice.productsList" :key="product.itemId" class="mt-3">
+        <div class="flex flex-col p-3 rounded-2xl bg-blue-products">
+          <InvoiceProductSelect v-model="product.itemName" optionPlaceholder="'*Select item*'" :optionList="getAttributeSelectOptions[2]" :htmlId="'itemName'" :labelText="'Item Name'" />
+          <InvoiceProductInput v-model="product.itemQuantity" :inputType="'number'" :htmlId="'itemQuantity'" :labelText="'Item Quantity'" />
+          <InvoiceProductInput v-model="product.unitPrice" :inputType="'number'" :htmlId="'unitPrice'" :labelText="'Unit Price'" :isOff="true" />
+          <InvoiceProductInput v-model="product.itemTotal" :inputType="'number'" :htmlId="'itemTotal'" :labelText="'Item Total'" :isOff="true" />
+        </div>
+      </div>
       <div class="mt-3 flex justify-start">
         <svg class="h-auto w-7 cursor-pointer" width="29" height="28" viewBox="0 0 29 28" fill="none" xmlns="http://www.w3.org/2000/svg">
           <g id="a0">
@@ -30,7 +37,7 @@
           </g>
         </svg>
       </div>
-      <InvoiceAttribute v-model="localInvoice.invoiceTotal" :htmlType="'input'" :htmlId="'invoiceTotal'" :inputType="'number'" :labelText="'Invoice Total'" :htmlDisabled="true" />
+      <InvoiceAttributeInput v-model="localInvoice.invoiceTotal" :inputType="'number'" :htmlId="'invoiceTotal'" :labelText="'Invoice Total'" :isOff="true" />
       <div class="flex flex-row mt-10 mb-5 gap-x-2 h-10 justify-between">
         <TheButton @click="backToInvoiceDetails" class="text-white text-sm px-2 py-2 sm:w-36 hover:bg-red-400" :buttonColor="'red'" :buttonTitle="'Cancel'" />
         <TheButton @click="goToInvoiceDetails" class="text-white text-sm px-2 py-2 sm:w-36 hover:bg-blue-400" :buttonColor="'blue'" :buttonTitle="'Save Changes'" />
@@ -41,15 +48,21 @@
 
 <script>
 import { mapGetters, mapActions } from 'vuex';
-import InvoiceAttribute from '../components/InvoiceAttribute.vue';
-import InvoiceProduct from '../components/InvoiceProduct.vue';
+import InvoiceAttributeInput from '../components/InvoiceAttributeInput.vue';
+import InvoiceAttributeSelect from '../components/InvoiceAttributeSelect.vue';
+import InvoiceAttributeTextArea from '../components/InvoiceAttributeTextArea.vue';
+import InvoiceProductInput from '../components/InvoiceProductInput.vue';
+import InvoiceProductSelect from '../components/InvoiceProductSelect.vue';
 import TheButton from '../components/TheButton.vue';
 
 export default {
   name: 'Edit Invoice',
   components: {
-    InvoiceAttribute,
-    InvoiceProduct,
+    InvoiceAttributeInput,
+    InvoiceAttributeSelect,
+    InvoiceAttributeTextArea,
+    InvoiceProductInput,
+    InvoiceProductSelect,
     TheButton,
   },
   props: {
@@ -65,7 +78,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(['getInvoiceDatabaseAll']),
+    ...mapGetters(['getInvoiceDatabaseAll', 'getAttributeSelectOptions']),
   },
   methods: {
     ...mapActions(['updateInvoiceDatabase']),
@@ -89,7 +102,7 @@ export default {
   },
   created() {
     [this.invoice] = this.getInvoiceDatabaseAll.filter((inv) => inv.invoiceId === this.invoiceId);
-    this.localInvoice = { ...this.invoice };
+    this.localInvoice = JSON.parse(JSON.stringify(this.invoice));
   },
 };
 </script>

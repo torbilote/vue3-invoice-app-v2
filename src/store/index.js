@@ -14,19 +14,19 @@ export default createStore({
         clientZipCode: 65152,
         clientCountry: 'France',
         clientNote: 'Please use strong package.',
-        paymentTerms: 'Payment30',
+        paymentTerms: '30 days Payment',
         paymentDate: '2021-05-12',
         productsList: [
           {
             itemId: 101,
-            itemName: 'Black',
+            itemName: 'Black Paint',
             itemQuantity: 5,
             unitPrice: 4.99,
             itemTotal: 24.95,
           },
           {
             itemId: 102,
-            itemName: 'Blue',
+            itemName: 'Blue Paint',
             itemQuantity: 3,
             unitPrice: 4.99,
             itemTotal: 14.97,
@@ -45,7 +45,7 @@ export default createStore({
         clientZipCode: 12178,
         clientCountry: 'Spain',
         clientNote: 'Please use eco package.',
-        paymentTerms: 'Payment60',
+        paymentTerms: '60 days Payment',
         paymentDate: '2021-05-11',
         productsList: [
           {
@@ -66,10 +66,37 @@ export default createStore({
         invoiceTotal: 9.98,
       },
     ],
+    selectOptionsCountry: [
+      {
+        value: 'France',
+      },
+      {
+        value: 'Spain',
+      },
+    ],
+    selectOptionsPayment: [
+      {
+        value: '30 days Payment',
+      },
+      {
+        value: '60 days Payment',
+      },
+    ],
+    selectOptionsProduct: [
+      {
+        value: 'Black Paint',
+      },
+      {
+        value: 'Blue Paint',
+      },
+    ],
   },
   getters: {
     getInvoiceDatabaseAll(state) {
       return state.invoiceDatabase;
+    },
+    getAttributeSelectOptions(state) {
+      return [state.selectOptionsCountry, state.selectOptionsPayment, state.selectOptionsProduct];
     },
   },
   mutations: {
