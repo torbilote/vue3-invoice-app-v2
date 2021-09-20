@@ -14,14 +14,16 @@
       <InvoiceAttributeSelect v-model="localInvoice.paymentTerms" optionPlaceholder="'*Select payment*'" :optionList="getAttributeSelectOptions[1]" :htmlId="'paymentTerms'" :labelText="'Payment Terms'" />
       <InvoiceAttributeInput v-model="localInvoice.paymentDate" :inputType="'date'" :htmlId="'paymentDate'" :labelText="'Payment Date'" :isOff="true" />
       <h3 class="mt-5 text-sm text-white text-left font-medium">Products</h3>
-      <div v-for="product in localInvoice.productsList" :key="product.itemId" class="mt-3">
-        <div class="flex flex-col p-3 rounded-2xl bg-blue-products">
-          <InvoiceProductSelect optionPlaceholder="'*Select item*'" :optionList="getAttributeSelectOptions[2]" :htmlId="'itemName'" :labelText="'Item Name'" />
-          <InvoiceProductInput :inputType="'number'" :htmlId="'itemQuantity'" :labelText="'Item Quantity'" />
-          <InvoiceProductInput :inputType="'number'" :htmlId="'unitPrice'" :labelText="'Unit Price'" />
-          <InvoiceProductInput :inputType="'number'" :htmlId="'itemTotal'" :labelText="'Item Total'" />
+      <template v-if="localInvoice.productsList">
+        <div v-for="product in localInvoice.productsList" :key="product.itemId" class="mt-3">
+          <div class="flex flex-col p-3 rounded-2xl bg-blue-products">
+            <InvoiceProductSelect v-model="product.itemName" optionPlaceholder="'*Select item*'" :optionList="getAttributeSelectOptions[2]" :htmlId="'itemName'" :labelText="'Item Name'" />
+            <InvoiceProductInput v-model="product.itemQuantity" :inputType="'number'" :htmlId="'itemQuantity'" :labelText="'Item Quantity'" />
+            <InvoiceProductInput v-model="product.unitPrice" :inputType="'number'" :htmlId="'unitPrice'" :labelText="'Unit Price'" :isOff="true" />
+            <InvoiceProductInput v-model="product.itemTotal" :inputType="'number'" :htmlId="'itemTotal'" :labelText="'Item Total'" :isOff="true" />
+          </div>
         </div>
-      </div>
+      </template>
       <div class="mt-3 flex justify-start">
         <svg class="h-auto w-7 cursor-pointer" width="29" height="28" viewBox="0 0 29 28" fill="none" xmlns="http://www.w3.org/2000/svg">
           <g id="a0">
@@ -39,15 +41,15 @@
       </div>
       <InvoiceAttributeInput v-model="localInvoice.invoiceTotal" :inputType="'number'" :htmlId="'invoiceTotal'" :labelText="'Invoice Total'" :isOff="true" />
       <div class="flex flex-row mt-10 mb-5 gap-x-2 h-10 justify-between">
-        <TheButton @click="backToInvoiceDetails" class="text-white text-sm px-2 py-2 sm:w-36 hover:bg-red-400" :buttonColor="'red'" :buttonTitle="'Cancel'" />
-        <TheButton @click="goToInvoiceDetails" class="text-white text-sm px-2 py-2 sm:w-36 hover:bg-blue-400" :buttonColor="'blue'" :buttonTitle="'Save Changes'" />
+        <TheButton @click="backToHome" class="text-white text-sm px-2 py-2 sm:w-36 hover:bg-red-400" :buttonColor="'red'" :buttonTitle="'Cancel'" />
+        <TheButton @click="goToHome" class="text-white text-sm px-2 py-2 sm:w-36 hover:bg-blue-400" :buttonColor="'blue'" :buttonTitle="'Create invoice'" />
       </div>
     </div>
   </form>
 </template>
 
 <script>
-// import { mapGetters, mapActions } from 'vuex';
+import { mapGetters, mapActions } from 'vuex';
 import InvoiceAttributeInput from '../components/InvoiceAttributeInput.vue';
 import InvoiceAttributeSelect from '../components/InvoiceAttributeSelect.vue';
 import InvoiceAttributeTextArea from '../components/InvoiceAttributeTextArea.vue';
@@ -64,6 +66,47 @@ export default {
     InvoiceProductInput,
     InvoiceProductSelect,
     TheButton,
+  },
+  data() {
+    return {
+      newId: 8532,
+      localInvoice: null,
+    };
+  },
+  computed: {
+    ...mapGetters(['getInvoiceDatabaseAll', 'getAttributeSelectOptions', 'getNextId']),
+  },
+  methods: {
+    ...mapActions(['updateInvoice', 'createInvoice']),
+    backToHome() {
+      this.$router.push({
+        name: 'Home',
+      });
+    },
+    goToHome() {
+      this.createInvoice(this.localInvoice);
+      this.$router.push({
+        name: 'Home',
+      });
+    },
+  },
+  created() {
+    this.localInvoice = {
+      invoiceId: this.getNextId,
+      invoiceStatus: 'Pending',
+      invoiceDate: null,
+      clientName: null,
+      clientEmail: null,
+      clientStreetAddress: null,
+      clientCity: null,
+      clientZipCode: null,
+      clientCountry: null,
+      clientNote: null,
+      paymentTerms: null,
+      paymentDate: null,
+      productsList: null,
+      invoiceTotal: null,
+    };
   },
 };
 </script>

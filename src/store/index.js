@@ -90,6 +90,7 @@ export default createStore({
         value: 'Blue Paint',
       },
     ],
+    nextId: 80001,
   },
   getters: {
     getInvoiceDatabaseAll(state) {
@@ -98,18 +99,28 @@ export default createStore({
     getAttributeSelectOptions(state) {
       return [state.selectOptionsCountry, state.selectOptionsPayment, state.selectOptionsProduct];
     },
+    getNextId(state) {
+      state.nextId += 1;
+      return state.nextId;
+    },
   },
   mutations: {
-    updateInvoiceDatabase(state, payload) {
+    updateInvoice(state, payload) {
       const index = state.invoiceDatabase.findIndex((inv) => inv.invoiceId === payload.invoiceId);
       if (index !== -1) {
         state.invoiceDatabase[index] = payload;
       }
     },
+    createInvoice(state, payload) {
+      state.invoiceDatabase.push(payload);
+    },
   },
   actions: {
-    updateInvoiceDatabase(context, payload) {
-      context.commit('updateInvoiceDatabase', payload);
+    updateInvoice(context, payload) {
+      context.commit('updateInvoice', payload);
+    },
+    createInvoice(context, payload) {
+      context.commit('createInvoice', payload);
     },
   },
 });

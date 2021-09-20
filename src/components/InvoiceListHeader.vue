@@ -60,7 +60,7 @@
         </g>
       </svg>
     </div>
-    <div class="absolute mb-1 right-0 w-14 h-4 -top-1 sm:h-5 md:h-6 md:top-0 lg:h-7 lg:-top-1 xl:h-8 xl:-top-2">
+    <div @click="goToAddInvoice" class="absolute mb-1 right-0 w-14 h-4 -top-1 sm:h-5 md:h-6 md:top-0 lg:h-7 lg:-top-1 xl:h-8 xl:-top-2">
       <svg class="absolute right-0 h-full w-auto cursor-pointer" width="29" height="28" viewBox="0 0 29 28" fill="none" xmlns="http://www.w3.org/2000/svg">
         <g id="a0">
           <g id="a3">
@@ -81,5 +81,12 @@
 <script>
 export default {
   name: 'Invoice List Header',
+  methods: {
+    goToAddInvoice() {
+      this.$router.push({
+        name: 'Add Invoice',
+      });
+    },
+  },
 };
 </script>

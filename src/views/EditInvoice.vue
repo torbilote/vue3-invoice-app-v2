@@ -81,7 +81,7 @@ export default {
     ...mapGetters(['getInvoiceDatabaseAll', 'getAttributeSelectOptions']),
   },
   methods: {
-    ...mapActions(['updateInvoiceDatabase']),
+    ...mapActions(['updateInvoice']),
     backToInvoiceDetails() {
       this.$router.push({
         name: 'Invoice Details',
@@ -91,7 +91,7 @@ export default {
       });
     },
     goToInvoiceDetails() {
-      this.updateInvoiceDatabase(this.localInvoice);
+      this.updateInvoice(this.localInvoice);
       this.$router.push({
         name: 'Invoice Details',
         params: {
