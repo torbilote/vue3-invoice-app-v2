@@ -115,7 +115,10 @@ export default createStore({
       state.invoiceDatabase.push(payload);
     },
     deleteInvoice(state, payload) {
-      state.invoiceDatabase.splice(payload, 1);
+      const index = state.invoiceDatabase.findIndex((inv) => inv.invoiceId === payload);
+      if (index !== -1) {
+        state.invoiceDatabase.splice(index, 1);
+      }
     },
   },
   actions: {

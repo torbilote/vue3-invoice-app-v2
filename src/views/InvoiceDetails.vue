@@ -86,10 +86,9 @@ export default {
         },
       });
     },
-    // DOKONCZYC
     deleteInvoiceFromDatabase(id) {
-      this.deleteInvoice(id);
       this.goToHome();
+      this.deleteInvoice(id);
     },
   },
   created() {
