@@ -23,6 +23,7 @@ module.exports = {
       },
       fontSize: {
         xxs: ['0.625rem', '0.75rem'],
+        '3xs': ['0.5rem', '0.625rem'],
       },
       colors: {
         'green-general': '#11EF5C',

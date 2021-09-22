@@ -21,6 +21,7 @@ export default {
         'bg-red-500': this.$props.buttonColor === 'red',
         'bg-green-500': this.$props.buttonColor === 'green',
         'bg-blue-500': this.$props.buttonColor === 'blue',
+        'bg-yellow-600': this.$props.buttonColor === 'orange',
       };
     },
   },

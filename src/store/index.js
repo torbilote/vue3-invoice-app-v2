@@ -114,6 +114,9 @@ export default createStore({
     createInvoice(state, payload) {
       state.invoiceDatabase.push(payload);
     },
+    deleteInvoice(state, payload) {
+      state.invoiceDatabase.splice(payload, 1);
+    },
   },
   actions: {
     updateInvoice(context, payload) {
@@ -121,6 +124,9 @@ export default createStore({
     },
     createInvoice(context, payload) {
       context.commit('createInvoice', payload);
+    },
+    deleteInvoice(context, payload) {
+      context.commit('deleteInvoice', payload);
     },
   },
 });

@@ -20,29 +20,36 @@
           <ul class="flex flex-col gap-y-2">
             <li class="grid grid-cols-4 font-medium">
               <p>Product Name</p>
-              <p>Unit Price</p>
               <p>Quantity</p>
+              <p>Unit Price</p>
               <p>Item Total</p>
             </li>
             <li v-for="product in invoice.productsList" :key="product.itemId" class="grid grid-cols-4">
               <p>{{ product.itemName }}</p>
               <p>{{ product.itemQuantity }}</p>
-              <p>{{ product.unitPrice }}</p>
-              <p>{{ product.itemTotal }}</p>
+              <p>${{ product.unitPrice }}</p>
+              <p>${{ product.itemTotal }}</p>
+            </li>
+            <li class="grid grid-cols-4 font-semibold border-t border-gray-200 pt-2">
+              <p>Total</p>
+              <p></p>
+              <p></p>
+              <p>${{ invoice.invoiceTotal }}</p>
             </li>
           </ul>
         </div>
       </div>
     </div>
     <div class="flex flex-row justify-around my-6">
-      <TheButton @click="goToHome" class="text-xs text-white sm:text-base md:text-lg px-2 py-2 sm:w-36 hover:bg-red-400" :buttonColor="'red'" :buttonTitle="'Back'" />
-      <TheButton @click="goToEditInvoice" class="text-xs text-white sm:text-base md:text-lg px-2 py-2 sm:w-36 hover:bg-blue-400" :buttonColor="'blue'" :buttonTitle="'Edit Invoice'" />
+      <TheButton @click="goToHome" class="text-xs text-white sm:text-base md:text-lg px-2 py-2 sm:w-36 hover:bg-yellow-500" :buttonColor="'orange'" :buttonTitle="'Back'" />
+      <TheButton @click="deleteInvoiceFromDatabase(invoice.invoiceId)" class="text-xs text-white sm:text-base md:text-lg px-2 py-2 sm:w-36 hover:bg-red-400" :buttonColor="'red'" :buttonTitle="'Delete'" />
+      <TheButton @click="goToEditInvoice" class="text-xs text-white sm:text-base md:text-lg px-2 py-2 sm:w-36 hover:bg-blue-400" :buttonColor="'blue'" :buttonTitle="'Modify'" />
     </div>
   </section>
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
+import { mapGetters, mapActions } from 'vuex';
 import TheButton from '../components/TheButton.vue';
 
 export default {
@@ -65,6 +72,7 @@ export default {
     ...mapGetters(['getInvoiceDatabaseAll']),
   },
   methods: {
+    ...mapActions(['deleteInvoice']),
     goToHome() {
       this.$router.push({
         name: 'Home',
@@ -77,6 +85,11 @@ export default {
           invoiceId: this.invoice.invoiceId,
         },
       });
+    },
+    // DOKONCZYC
+    deleteInvoiceFromDatabase(id) {
+      this.deleteInvoice(id);
+      this.goToHome();
     },
   },
   created() {

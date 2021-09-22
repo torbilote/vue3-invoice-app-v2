@@ -1,5 +1,5 @@
 <template>
-  <li class="relative grid grid-cols-6 text-xxs text-white pb-1 border-b-2 border-gray-300 sm:text-xs md:text-base">
+  <li class="relative grid grid-cols-6 text-3xs text-white pb-1 border-b-2 border-gray-300 sm:text-xs md:text-base">
     <div class="pl-2 flex flex-row">
       <p>Invoice Id</p>
       <svg class="w-3 sm:w-4 md:w-5 lg:w-6 h-auto" width="512" height="512" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
