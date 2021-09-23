@@ -4,6 +4,11 @@
       <h2 class="text-base text-white text-center font-medium sm:text-lg lg:text-xl xl:text-2xl">Edit Invoice</h2>
       <InvoiceAttributeInput v-model="localInvoice.invoiceId" :inputType="'input'" :htmlId="'invoiceId'" :labelText="'Invoice Id'" :isOff="true" />
       <InvoiceAttributeInput v-model="localInvoice.invoiceDate" :inputType="'date'" :htmlId="'invoiceDate'" :labelText="'Invoice Date'" />
+      <label class="invoice-status flex flex-col mt-3">
+        <span class="text-sm text-white font-extralight mb-1 lg:text-base"
+          >Invoice Status: <span class="font-medium">{{ localInvoice.invoiceStatus }}</span></span
+        ><input type="checkbox" v-model="checkbox" class="cursor-pointer h-7 w-7" />
+      </label>
       <InvoiceAttributeInput v-model="localInvoice.clientName" :inputType="'text'" :htmlId="'clientName'" :labelText="'Client Name'" />
       <InvoiceAttributeInput v-model="localInvoice.clientEmail" :inputType="'email'" :htmlId="'clientEmail'" :labelText="'Client Email'" />
       <InvoiceAttributeInput v-model="localInvoice.clientStreetAddress" :inputType="'text'" :htmlId="'clientStreetAddress'" :labelText="'Client Street Address'" />
@@ -80,7 +85,14 @@ export default {
     return {
       invoice: null,
       localInvoice: null,
+      checkbox: false,
     };
+  },
+  watch: {
+    checkbox(value) {
+      if (value) this.localInvoice.invoiceStatus = 'Paid';
+      else this.localInvoice.invoiceStatus = 'Pending';
+    },
   },
   computed: {
     ...mapGetters(['getInvoiceDatabaseAll', 'getAttributeSelectOptions']),
@@ -121,6 +133,10 @@ export default {
   created() {
     [this.invoice] = this.getInvoiceDatabaseAll.filter((inv) => inv.invoiceId === this.invoiceId);
     this.localInvoice = JSON.parse(JSON.stringify(this.invoice));
+
+    if (this.localInvoice.invoiceStatus === 'Pending') {
+      this.checkbox = false;
+    } else this.checkbox = true;
   },
 };
 </script>

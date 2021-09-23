@@ -1,9 +1,14 @@
 <template>
   <form class="mt-5">
     <div class="w-4/5 lg:w-3/5 mx-auto flex flex-col lg:gap-y-2">
-      <h2 class="text-base text-white text-center font-medium sm:text-lg lg:text-xl xl:text-2xl">Edit Invoice</h2>
+      <h2 class="text-base text-white text-center font-medium sm:text-lg lg:text-xl xl:text-2xl">New Invoice</h2>
       <InvoiceAttributeInput v-model="localInvoice.invoiceId" :inputType="'input'" :htmlId="'invoiceId'" :labelText="'Invoice Id'" :isOff="true" />
       <InvoiceAttributeInput v-model="localInvoice.invoiceDate" :inputType="'date'" :htmlId="'invoiceDate'" :labelText="'Invoice Date'" />
+      <label class="invoice-status flex flex-col mt-3">
+        <span class="text-sm text-white font-extralight mb-1 lg:text-base"
+          >Invoice Status: <span class="font-medium">{{ localInvoice.invoiceStatus }}</span></span
+        ><input type="checkbox" v-model="checkbox" class="cursor-pointer h-7 w-7" />
+      </label>
       <InvoiceAttributeInput v-model="localInvoice.clientName" :inputType="'text'" :htmlId="'clientName'" :labelText="'Client Name'" />
       <InvoiceAttributeInput v-model="localInvoice.clientEmail" :inputType="'email'" :htmlId="'clientEmail'" :labelText="'Client Email'" />
       <InvoiceAttributeInput v-model="localInvoice.clientStreetAddress" :inputType="'text'" :htmlId="'clientStreetAddress'" :labelText="'Client Street Address'" />
@@ -75,7 +80,14 @@ export default {
     return {
       newId: 8532,
       localInvoice: null,
+      checkbox: false,
     };
+  },
+  watch: {
+    checkbox(value) {
+      if (value) this.localInvoice.invoiceStatus = 'Paid';
+      else this.localInvoice.invoiceStatus = 'Pending';
+    },
   },
   computed: {
     ...mapGetters(['getInvoiceDatabaseAll', 'getAttributeSelectOptions', 'getNextId']),
