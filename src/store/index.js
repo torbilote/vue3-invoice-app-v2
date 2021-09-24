@@ -1,4 +1,5 @@
 import { createStore } from 'vuex';
+import moment from 'moment';
 
 export default createStore({
   state: {
@@ -70,6 +71,10 @@ export default createStore({
       country: 'Country',
       status: 'Status',
     },
+    sortOptions: {
+      attribute: 'invoiceId',
+      direction: 'asc',
+    },
     selectOptionsCountry: [
       {
         value: 'France',
@@ -100,20 +105,57 @@ export default createStore({
     getInvoiceDatabaseAll(state) {
       return state.invoiceDatabase;
     },
-    getInvoiceDatabaseFiltered(state, getters) {
+    getInvoiceDatabaseSelected(state, getters) {
       const allInvoices = getters.getInvoiceDatabaseAll;
-      const { filters } = state;
+      const { filters, sortOptions } = state;
+      let selectedInvoices = null;
       if (filters.country === 'Country' && filters.status === 'Status') {
-        return allInvoices.filter((inv) => inv);
+        selectedInvoices = allInvoices.filter((inv) => inv);
+      } else if (filters.country === 'Country' && filters.status !== 'Status') {
+        selectedInvoices = allInvoices.filter((inv) => inv.invoiceStatus === filters.status);
+      } else if (filters.country !== 'Country' && filters.status === 'Status') {
+        selectedInvoices = allInvoices.filter((inv) => inv.clientCountry === filters.country);
+      } else {
+        selectedInvoices = allInvoices.filter((inv) => inv.invoiceStatus === filters.status && inv.clientCountry === filters.country);
       }
-      if (filters.country === 'Country' && filters.status !== 'Status') {
-        return allInvoices.filter((inv) => inv.invoiceStatus === filters.status);
+      if (sortOptions.attribute === 'invoiceId') {
+        if (sortOptions.direction === 'asc') {
+          selectedInvoices.sort((a, b) => a.invoiceId - b.invoiceId);
+        } else {
+          selectedInvoices.sort((a, b) => b.invoiceId - a.invoiceId);
+        }
+      } else if (sortOptions.attribute === 'invoiceDate') {
+        if (sortOptions.direction === 'asc') {
+          selectedInvoices.sort((a, b) => moment(a.invoiceDate) - moment(b.invoiceDate));
+        } else {
+          selectedInvoices.sort((a, b) => moment(b.invoiceDate) - moment(a.invoiceDate));
+        }
+      } else if (sortOptions.attribute === 'clientCountry') {
+        if (sortOptions.direction === 'asc') {
+          selectedInvoices.sort((a, b) => (a.clientCountry > b.clientCountry ? -1 : b.clientCountry > a.clientCountry ? 1 : 0));
+        } else {
+          selectedInvoices.sort((a, b) => (a.clientCountry > b.clientCountry ? 1 : b.clientCountry > a.clientCountry ? -1 : 0));
+        }
+      } else if (sortOptions.attribute === 'clientZipCode') {
+        if (sortOptions.direction === 'asc') {
+          selectedInvoices.sort((a, b) => a.clientZipCode - b.clientZipCode);
+        } else {
+          selectedInvoices.sort((a, b) => b.clientZipCode - a.clientZipCode);
+        }
+      } else if (sortOptions.attribute === 'invoiceTotal') {
+        if (sortOptions.direction === 'asc') {
+          selectedInvoices.sort((a, b) => a.invoiceTotal - b.invoiceTotal);
+        } else {
+          selectedInvoices.sort((a, b) => b.invoiceTotal - a.invoiceTotal);
+        }
+      } else if (sortOptions.direction === 'asc') {
+        selectedInvoices.sort((a, b) => (a.invoiceStatus > b.invoiceStatus ? -1 : b.invoiceStatus > a.invoiceStatus ? 1 : 0));
+      } else {
+        selectedInvoices.sort((a, b) => (a.invoiceStatus > b.invoiceStatus ? 1 : b.invoiceStatus > a.invoiceStatus ? -1 : 0));
       }
-      if (filters.country !== 'Country' && filters.status === 'Status') {
-        return allInvoices.filter((inv) => inv.clientCountry === filters.country);
-      }
-      return allInvoices.filter((inv) => inv.invoiceStatus === filters.status && inv.clientCountry === filters.country);
+      return selectedInvoices;
     },
+
     getAttributeSelectOptions(state) {
       return [state.selectOptionsCountry, state.selectOptionsPayment, state.selectOptionsProduct];
     },
@@ -142,6 +184,10 @@ export default createStore({
       state.filters.country = payload.country;
       state.filters.status = payload.status;
     },
+    setSortOptions(state, payload) {
+      state.sortOptions.attribute = payload.attribute;
+      state.sortOptions.direction = payload.direction;
+    },
   },
   actions: {
     updateInvoice(context, payload) {
@@ -155,6 +201,9 @@ export default createStore({
     },
     setFilters(context, payload) {
       context.commit('setFilters', payload);
+    },
+    setSortOptions(context, payload) {
+      context.commit('setSortOptions', payload);
     },
   },
 });
