@@ -66,6 +66,10 @@ export default createStore({
         invoiceTotal: 9.98,
       },
     ],
+    filters: {
+      country: 'Country',
+      status: 'Status',
+    },
     selectOptionsCountry: [
       {
         value: 'France',
@@ -96,6 +100,20 @@ export default createStore({
     getInvoiceDatabaseAll(state) {
       return state.invoiceDatabase;
     },
+    getInvoiceDatabaseFiltered(state, getters) {
+      const allInvoices = getters.getInvoiceDatabaseAll;
+      const { filters } = state;
+      if (filters.country === 'Country' && filters.status === 'Status') {
+        return allInvoices.filter((inv) => inv);
+      }
+      if (filters.country === 'Country' && filters.status !== 'Status') {
+        return allInvoices.filter((inv) => inv.invoiceStatus === filters.status);
+      }
+      if (filters.country !== 'Country' && filters.status === 'Status') {
+        return allInvoices.filter((inv) => inv.clientCountry === filters.country);
+      }
+      return allInvoices.filter((inv) => inv.invoiceStatus === filters.status && inv.clientCountry === filters.country);
+    },
     getAttributeSelectOptions(state) {
       return [state.selectOptionsCountry, state.selectOptionsPayment, state.selectOptionsProduct];
     },
@@ -120,6 +138,10 @@ export default createStore({
         state.invoiceDatabase.splice(index, 1);
       }
     },
+    setFilters(state, payload) {
+      state.filters.country = payload.country;
+      state.filters.status = payload.status;
+    },
   },
   actions: {
     updateInvoice(context, payload) {
@@ -130,6 +152,9 @@ export default createStore({
     },
     deleteInvoice(context, payload) {
       context.commit('deleteInvoice', payload);
+    },
+    setFilters(context, payload) {
+      context.commit('setFilters', payload);
     },
   },
 });

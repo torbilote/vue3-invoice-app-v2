@@ -1,5 +1,5 @@
 <template>
-  <li v-for="invoice in getInvoiceDatabaseAll" :key="invoice.invoiceId" @click="goToInvoiceDetails(invoice)" class="grid grid-cols-6 text-xxs text-gray-200 py-4 sm:text-xs md:text-base bg-blue-list-items rounded-2xl my-2">
+  <li v-for="invoice in getInvoiceDatabaseFiltered" :key="invoice.invoiceId" @click="goToInvoiceDetails(invoice)" class="grid grid-cols-6 text-xxs text-gray-200 py-4 sm:text-xs md:text-base bg-blue-list-items rounded-2xl my-2">
     <div class="pl-2">
       <p>#{{ invoice.invoiceId }}</p>
     </div>
@@ -28,7 +28,7 @@ import { mapGetters } from 'vuex';
 export default {
   name: 'Invoice List Record',
   computed: {
-    ...mapGetters(['getInvoiceDatabaseAll']),
+    ...mapGetters(['getInvoiceDatabaseFiltered']),
   },
   methods: {
     goToInvoiceDetails(invoice) {
