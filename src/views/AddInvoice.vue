@@ -136,6 +136,22 @@ export default {
       productsList: [],
       invoiceTotal: null,
     };
+
+    this.$watch(
+      () => this.localInvoice.paymentTerms,
+      (value) => {
+        if (value === '30 days Payment') this.localInvoice.paymentDate = moment(this.localInvoice.invoiceDate).add(30, 'days').format('YYYY-MM-DD');
+        else if (value === '60 days Payment') this.localInvoice.paymentDate = moment(this.localInvoice.invoiceDate).add(60, 'days').format('YYYY-MM-DD');
+      }
+    );
+
+    this.$watch(
+      () => this.localInvoice.invoiceDate,
+      () => {
+        this.localInvoice.paymentTerms = '*Select payment*';
+        this.localInvoice.paymentDate = null;
+      }
+    );
   },
 };
 </script>
