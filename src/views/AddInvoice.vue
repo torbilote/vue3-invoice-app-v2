@@ -88,6 +88,14 @@ export default {
       if (value) this.localInvoice.invoiceStatus = 'Paid';
       else this.localInvoice.invoiceStatus = 'Pending';
     },
+    'localInvoice.paymentTerms': function _(value) {
+      if (value === '30 days Payment') this.localInvoice.paymentDate = moment(this.localInvoice.invoiceDate).add(30, 'days').format('YYYY-MM-DD');
+      else if (value === '60 days Payment') this.localInvoice.paymentDate = moment(this.localInvoice.invoiceDate).add(60, 'days').format('YYYY-MM-DD');
+    },
+    'localInvoice.invoiceDate': function _() {
+      this.localInvoice.paymentTerms = '*Select payment*';
+      this.localInvoice.paymentDate = null;
+    },
   },
   computed: {
     ...mapGetters(['getInvoiceDatabaseAll', 'getAttributeSelectOptions', 'getNextId']),
@@ -136,22 +144,6 @@ export default {
       productsList: [],
       invoiceTotal: null,
     };
-
-    this.$watch(
-      () => this.localInvoice.paymentTerms,
-      (value) => {
-        if (value === '30 days Payment') this.localInvoice.paymentDate = moment(this.localInvoice.invoiceDate).add(30, 'days').format('YYYY-MM-DD');
-        else if (value === '60 days Payment') this.localInvoice.paymentDate = moment(this.localInvoice.invoiceDate).add(60, 'days').format('YYYY-MM-DD');
-      }
-    );
-
-    this.$watch(
-      () => this.localInvoice.invoiceDate,
-      () => {
-        this.localInvoice.paymentTerms = '*Select payment*';
-        this.localInvoice.paymentDate = null;
-      }
-    );
   },
 };
 </script>
