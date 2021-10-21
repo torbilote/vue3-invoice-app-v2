@@ -14,15 +14,15 @@
       <InvoiceAttributeInput v-model="localInvoice.clientStreetAddress" :inputType="'text'" :htmlId="'clientStreetAddress'" :labelText="'Client Street Address'" />
       <InvoiceAttributeInput v-model="localInvoice.clientCity" :inputType="'text'" :htmlId="'clientCity'" :labelText="'Client City'" />
       <InvoiceAttributeInput v-model="localInvoice.clientZipCode" :inputType="'text'" :htmlId="'clientZipCode'" :labelText="'Client Zip Code'" />
-      <InvoiceAttributeSelect v-model="localInvoice.clientCountry" :optionPlaceholder="'*Select country*'" :optionList="getAttributeSelectOptions[0]" :htmlId="'clientCountry'" :labelText="'Client Country'" />
+      <InvoiceAttributeSelect v-model="localInvoice.clientCountry" :optionList="getAttributeSelectOptions[0]" :htmlId="'clientCountry'" :labelText="'Client Country'" />
       <InvoiceAttributeTextArea v-model="localInvoice.clientNote" :htmlId="'clientNote'" :labelText="'Client Note'" />
-      <InvoiceAttributeSelect v-model="localInvoice.paymentTerms" :optionPlaceholder="'*Select payment*'" :optionList="getAttributeSelectOptions[1]" :htmlId="'paymentTerms'" :labelText="'Payment Terms'" />
+      <InvoiceAttributeSelect v-model="localInvoice.paymentTerms" :optionList="getAttributeSelectOptions[1]" :htmlId="'paymentTerms'" :labelText="'Payment Terms'" />
       <InvoiceAttributeInput v-model="localInvoice.paymentDate" :inputType="'date'" :htmlId="'paymentDate'" :labelText="'Payment Date'" :isOff="true" />
       <h3 class="mt-5 text-sm text-white text-left font-medium">Products</h3>
       <template v-if="localInvoice.productsList">
         <div v-for="product in localInvoice.productsList" :key="product.itemId" class="mt-3">
           <div class="flex flex-col p-3 rounded-2xl bg-blue-products relative">
-            <InvoiceProductSelect v-model="product.itemName" optionPlaceholder="'*Select item*'" :optionList="getAttributeSelectOptions[2]" :htmlId="'itemName'" :labelText="'Item Name'" />
+            <InvoiceProductSelect v-model="product.itemName" :optionList="getAttributeSelectOptions[2]" :htmlId="'itemName'" :labelText="'Item Name'" />
             <InvoiceProductInput v-model="product.itemQuantity" :inputType="'number'" :htmlId="'itemQuantity'" :labelText="'Item Quantity'" />
             <InvoiceProductInput v-model="product.unitPrice" :inputType="'number'" :htmlId="'unitPrice'" :labelText="'Unit Price'" :isOff="true" />
             <InvoiceProductInput v-model="product.itemTotal" :inputType="'number'" :htmlId="'itemTotal'" :labelText="'Item Total'" :isOff="true" />
@@ -78,7 +78,6 @@ export default {
   },
   data() {
     return {
-      newId: 8532,
       localInvoice: null,
       checkbox: false,
     };
@@ -96,12 +95,36 @@ export default {
       this.localInvoice.paymentTerms = '*Select payment*';
       this.localInvoice.paymentDate = null;
     },
+    localProductsList: {
+      handler(freshList) {
+        const updatedList = freshList;
+
+        for (let i = 0; i < updatedList.length; i += 1) {
+          const { itemName, itemQuantity } = updatedList[i];
+          const itemDatabase = this.getAttributeSelectOptions[2];
+
+          const itemIndex = itemDatabase.findIndex((product) => product.value === itemName);
+
+          if (itemIndex !== -1) {
+            updatedList[i].unitPrice = itemDatabase[itemIndex].price;
+            updatedList[i].itemTotal = parseFloat((updatedList[i].unitPrice * itemQuantity).toFixed(2));
+          }
+        }
+      },
+      deep: true,
+    },
   },
   computed: {
-    ...mapGetters(['getInvoiceDatabaseAll', 'getAttributeSelectOptions', 'getNextId']),
+    ...mapGetters(['getInvoiceDatabaseAll', 'getAttributeSelectOptions', 'getIds']),
+    localProductsList() {
+      if (this.localInvoice) {
+        return this.localInvoice.productsList;
+      }
+      return 0;
+    },
   },
   methods: {
-    ...mapActions(['updateInvoice', 'createInvoice']),
+    ...mapActions(['updateInvoice', 'createInvoice', 'incId']),
     backToHome() {
       this.$router.push({
         name: 'Home',
@@ -115,12 +138,13 @@ export default {
     },
     addProductToInvoice() {
       this.localInvoice.productsList.push({
-        itemId: this.getNextId,
-        itemName: '',
+        itemId: this.getIds.itemId,
+        itemName: '*Select item*',
         itemQuantity: 1,
         unitPrice: 0,
         itemTotal: 0,
       });
+      this.incId('item');
     },
     deleteProductFromInvoice(id) {
       const index = this.localInvoice.productsList.findIndex((item) => item.itemId === id);
@@ -129,7 +153,7 @@ export default {
   },
   created() {
     this.localInvoice = {
-      invoiceId: this.getNextId,
+      invoiceId: this.getIds.invoiceId,
       invoiceStatus: 'Pending',
       invoiceDate: moment().format('YYYY-MM-DD'),
       clientName: null,
@@ -144,6 +168,7 @@ export default {
       productsList: [],
       invoiceTotal: null,
     };
+    this.incId('invoice');
   },
 };
 </script>

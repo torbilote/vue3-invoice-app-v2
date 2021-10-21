@@ -5,7 +5,7 @@ export default createStore({
   state: {
     invoiceDatabase: [
       {
-        invoiceId: 4345,
+        invoiceId: 80111,
         invoiceStatus: 'Pending',
         invoiceDate: '2021-04-12',
         clientName: 'Norbert',
@@ -19,14 +19,14 @@ export default createStore({
         paymentDate: '2021-05-12',
         productsList: [
           {
-            itemId: 101,
+            itemId: 10,
             itemName: 'Black Paint',
             itemQuantity: 5,
             unitPrice: 4.99,
             itemTotal: 24.95,
           },
           {
-            itemId: 102,
+            itemId: 20,
             itemName: 'Blue Paint',
             itemQuantity: 3,
             unitPrice: 4.99,
@@ -36,7 +36,7 @@ export default createStore({
         invoiceTotal: 39.92,
       },
       {
-        invoiceId: 4346,
+        invoiceId: 80211,
         invoiceStatus: 'Paid',
         invoiceDate: '2021-03-12',
         clientName: 'Justyna',
@@ -50,14 +50,14 @@ export default createStore({
         paymentDate: '2021-05-11',
         productsList: [
           {
-            itemId: 101,
+            itemId: 30,
             itemName: 'Black',
             itemQuantity: 1,
             unitPrice: 4.99,
             itemTotal: 4.99,
           },
           {
-            itemId: 102,
+            itemId: 40,
             itemName: 'Blue',
             itemQuantity: 1,
             unitPrice: 4.99,
@@ -77,6 +77,11 @@ export default createStore({
     },
     selectOptionsCountry: [
       {
+        value: '*Select country*',
+        isOn: true,
+        isOff: true,
+      },
+      {
         value: 'France',
       },
       {
@@ -84,6 +89,11 @@ export default createStore({
       },
     ],
     selectOptionsPayment: [
+      {
+        value: '*Select payment*',
+        isOn: true,
+        isOff: true,
+      },
       {
         value: '30 days Payment',
       },
@@ -93,13 +103,24 @@ export default createStore({
     ],
     selectOptionsProduct: [
       {
+        value: '*Select item*',
+        price: 0.0,
+        isOn: true,
+        isOff: true,
+      },
+      {
         value: 'Black Paint',
+        price: 29.99,
       },
       {
         value: 'Blue Paint',
+        price: 24.99,
       },
     ],
-    nextId: 80001,
+    ids: {
+      invoiceId: 80311,
+      itemId: 50,
+    },
   },
   getters: {
     getInvoiceDatabaseAll(state) {
@@ -155,13 +176,11 @@ export default createStore({
       }
       return selectedInvoices;
     },
-
     getAttributeSelectOptions(state) {
       return [state.selectOptionsCountry, state.selectOptionsPayment, state.selectOptionsProduct];
     },
-    getNextId(state) {
-      state.nextId += 1;
-      return state.nextId;
+    getIds(state) {
+      return state.ids;
     },
     getSortOptions(state) {
       return state.sortOptions;
@@ -197,6 +216,10 @@ export default createStore({
         state.sortOptions.direction = 'asc';
       }
     },
+    incId(state, payload) {
+      if (payload === 'invoice') state.ids.invoiceId += 100;
+      else if (payload === 'item') state.ids.itemId += 10;
+    },
   },
   actions: {
     updateInvoice(context, payload) {
@@ -213,6 +236,9 @@ export default createStore({
     },
     setSortOptions(context, payload) {
       context.commit('setSortOptions', payload);
+    },
+    incId(context, payload) {
+      context.commit('incId', payload);
     },
   },
 });
