@@ -163,6 +163,9 @@ export default createStore({
       state.nextId += 1;
       return state.nextId;
     },
+    getSortOptions(state) {
+      return state.sortOptions;
+    },
   },
   mutations: {
     updateInvoice(state, payload) {
@@ -185,8 +188,14 @@ export default createStore({
       state.filters.status = payload.status;
     },
     setSortOptions(state, payload) {
-      state.sortOptions.attribute = payload.attribute;
-      state.sortOptions.direction = payload.direction;
+      if (state.sortOptions.attribute === payload && state.sortOptions.direction === 'asc') {
+        state.sortOptions.direction = 'desc';
+      } else if (state.sortOptions.attribute === payload && state.sortOptions.direction === 'desc') {
+        state.sortOptions.direction = 'asc';
+      } else {
+        state.sortOptions.attribute = payload;
+        state.sortOptions.direction = 'asc';
+      }
     },
   },
   actions: {

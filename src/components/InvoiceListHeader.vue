@@ -1,8 +1,8 @@
 <template>
   <li class="relative grid grid-cols-6 text-3xs text-white pb-1 border-b-2 border-gray-300 sm:text-xs md:text-base">
-    <div @click="setSort('invoiceId')" class="cursor-pointer pl-2 flex flex-row">
+    <div @click="setSortOptions('invoiceId')" class="cursor-pointer pl-2 flex flex-row">
       <p>Invoice Id</p>
-      <svg v-show="sortOptions.attribute === 'invoiceId'" class="w-3 sm:w-4 md:w-5 lg:w-6 h-auto" width="512" height="512" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <svg v-show="getSortOptions.attribute === 'invoiceId'" class="w-3 sm:w-4 md:w-5 lg:w-6 h-auto" width="512" height="512" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
         <g id="arrow 1">
           <g id="a0">
             <path id="Vector" d="M396.6 160L416 180.7L256 352L96 180.7L115.3 160L256 310.5L396.6 160Z" fill="#858585" />
@@ -10,9 +10,9 @@
         </g>
       </svg>
     </div>
-    <div @click="setSort('invoiceDate')" class="cursor-pointer flex flex-row">
+    <div @click="setSortOptions('invoiceDate')" class="cursor-pointer flex flex-row">
       <p>Due Date</p>
-      <svg v-show="sortOptions.attribute === 'invoiceDate'" class="w-3 sm:w-4 md:w-5 lg:w-6 h-auto" width="512" height="512" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <svg v-show="getSortOptions.attribute === 'invoiceDate'" class="w-3 sm:w-4 md:w-5 lg:w-6 h-auto" width="512" height="512" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
         <g id="arrow 1">
           <g id="a0">
             <path id="Vector" d="M396.6 160L416 180.7L256 352L96 180.7L115.3 160L256 310.5L396.6 160Z" fill="#858585" />
@@ -20,9 +20,9 @@
         </g>
       </svg>
     </div>
-    <div @click="setSort('clientCountry')" class="cursor-pointer flex flex-row">
+    <div @click="setSortOptions('clientCountry')" class="cursor-pointer flex flex-row">
       <p>Country</p>
-      <svg v-show="sortOptions.attribute === 'clientCountry'" class="w-3 sm:w-4 md:w-5 lg:w-6 h-auto" width="512" height="512" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <svg v-show="getSortOptions.attribute === 'clientCountry'" class="w-3 sm:w-4 md:w-5 lg:w-6 h-auto" width="512" height="512" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
         <g id="arrow 1">
           <g id="a0">
             <path id="Vector" d="M396.6 160L416 180.7L256 352L96 180.7L115.3 160L256 310.5L396.6 160Z" fill="#858585" />
@@ -30,9 +30,9 @@
         </g>
       </svg>
     </div>
-    <div @click="setSort('clientZipCode')" class="cursor-pointer flex flex-row">
+    <div @click="setSortOptions('clientZipCode')" class="cursor-pointer flex flex-row">
       <p>Zip Code</p>
-      <svg v-show="sortOptions.attribute === 'clientZipCode'" class="w-3 sm:w-4 md:w-5 lg:w-6 h-auto" width="512" height="512" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <svg v-show="getSortOptions.attribute === 'clientZipCode'" class="w-3 sm:w-4 md:w-5 lg:w-6 h-auto" width="512" height="512" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
         <g id="arrow 1">
           <g id="a0">
             <path id="Vector" d="M396.6 160L416 180.7L256 352L96 180.7L115.3 160L256 310.5L396.6 160Z" fill="#858585" />
@@ -40,9 +40,9 @@
         </g>
       </svg>
     </div>
-    <div @click="setSort('invoiceTotal')" class="cursor-pointer flex flex-row">
+    <div @click="setSortOptions('invoiceTotal')" class="cursor-pointer flex flex-row">
       <p>Total</p>
-      <svg v-show="sortOptions.attribute === 'invoiceTotal'" class="w-3 sm:w-4 md:w-5 lg:w-6 h-auto" width="512" height="512" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <svg v-show="getSortOptions.attribute === 'invoiceTotal'" class="w-3 sm:w-4 md:w-5 lg:w-6 h-auto" width="512" height="512" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
         <g id="arrow 1">
           <g id="a0">
             <path id="Vector" d="M396.6 160L416 180.7L256 352L96 180.7L115.3 160L256 310.5L396.6 160Z" fill="#858585" />
@@ -50,9 +50,9 @@
         </g>
       </svg>
     </div>
-    <div @click="setSort('invoiceStatus')" class="cursor-pointer flex flex-row">
+    <div @click="setSortOptions('invoiceStatus')" class="cursor-pointer flex flex-row">
       <p>Status</p>
-      <svg v-show="sortOptions.attribute === 'invoiceStatus'" class="w-3 sm:w-4 md:w-5 lg:w-6 h-auto" width="512" height="512" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <svg v-show="getSortOptions.attribute === 'invoiceStatus'" class="w-3 sm:w-4 md:w-5 lg:w-6 h-auto" width="512" height="512" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
         <g id="arrow 1">
           <g id="a0">
             <path id="Vector" d="M396.6 160L416 180.7L256 352L96 180.7L115.3 160L256 310.5L396.6 160Z" fill="#858585" />
@@ -79,37 +79,21 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex';
+import { mapGetters, mapActions } from 'vuex';
 
 export default {
   name: 'Invoice List Header',
   data() {
-    return {
-      sortOptions: {
-        attribute: 'invoiceId',
-        direction: 'asc',
-      },
-    };
+    return {};
+  },
+  computed: {
+    ...mapGetters(['getSortOptions']),
   },
   methods: {
     ...mapActions(['setSortOptions']),
     goToAddInvoice() {
       this.$router.push({
         name: 'Add Invoice',
-      });
-    },
-    setSort(attribute) {
-      if (this.sortOptions.attribute === attribute && this.sortOptions.direction === 'asc') {
-        this.sortOptions.direction = 'desc';
-      } else if (this.sortOptions.attribute === attribute && this.sortOptions.direction === 'desc') {
-        this.sortOptions.direction = 'asc';
-      } else {
-        this.sortOptions.attribute = attribute;
-        this.sortOptions.direction = 'asc';
-      }
-      this.setSortOptions({
-        attribute: this.sortOptions.attribute,
-        direction: this.sortOptions.direction,
       });
     },
   },
