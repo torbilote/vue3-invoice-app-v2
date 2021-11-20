@@ -3,27 +3,27 @@
     <div class="w-4/5 lg:w-3/5 mx-auto flex flex-col lg:gap-y-2">
       <h2 class="text-base text-white text-center font-medium sm:text-lg lg:text-xl xl:text-2xl">New Invoice</h2>
       <InvoiceAttributeInput v-model="localInvoice.invoiceId" :inputType="'input'" :htmlId="'invoiceId'" :labelText="'Invoice Id'" :isOff="true" />
-      <InvoiceAttributeInput v-model="localInvoice.invoiceDate" :inputType="'date'" :htmlId="'invoiceDate'" :labelText="'Invoice Date'" />
+      <InvoiceAttributeInput v-model="localInvoice.invoiceDate" @isValid="checkInvoiceIfValid($event, 0)" :inputType="'date'" :htmlId="'invoiceDate'" :labelText="'Invoice Date'" />
       <label class="invoice-status flex flex-col mt-3">
         <span class="text-sm text-white font-extralight mb-1 lg:text-base"
           >Invoice Status: <span class="font-medium">{{ localInvoice.invoiceStatus }}</span></span
         ><input type="checkbox" v-model="checkbox" class="cursor-pointer h-7 w-7" />
       </label>
-      <InvoiceAttributeInput v-model="localInvoice.clientName" :inputType="'text'" :htmlId="'clientName'" :labelText="'Client Name'" />
-      <InvoiceAttributeInput v-model="localInvoice.clientEmail" :inputType="'email'" :htmlId="'clientEmail'" :labelText="'Client Email'" />
-      <InvoiceAttributeInput v-model="localInvoice.clientStreetAddress" :inputType="'text'" :htmlId="'clientStreetAddress'" :labelText="'Client Street Address'" />
-      <InvoiceAttributeInput v-model="localInvoice.clientCity" :inputType="'text'" :htmlId="'clientCity'" :labelText="'Client City'" />
-      <InvoiceAttributeInput v-model="localInvoice.clientZipCode" :inputType="'text'" :htmlId="'clientZipCode'" :labelText="'Client Zip Code'" />
+      <InvoiceAttributeInput v-model="localInvoice.clientName" @isValid="checkInvoiceIfValid($event, 1)" :inputType="'text'" :htmlId="'clientName'" :labelText="'Client Name'" />
+      <InvoiceAttributeInput v-model="localInvoice.clientEmail" @isValid="checkInvoiceIfValid($event, 2)" :inputType="'email'" :htmlId="'clientEmail'" :labelText="'Client Email'" />
+      <InvoiceAttributeInput v-model="localInvoice.clientStreetAddress" @isValid="checkInvoiceIfValid($event, 3)" :inputType="'text'" :htmlId="'clientStreetAddress'" :labelText="'Client Street Address'" />
+      <InvoiceAttributeInput v-model="localInvoice.clientCity" @isValid="checkInvoiceIfValid($event, 4)" :inputType="'text'" :htmlId="'clientCity'" :labelText="'Client City'" />
+      <InvoiceAttributeInput v-model="localInvoice.clientZipCode" @isValid="checkInvoiceIfValid($event, 5)" :inputType="'text'" :htmlId="'clientZipCode'" :labelText="'Client Zip Code'" />
       <InvoiceAttributeSelect v-model="localInvoice.clientCountry" :optionList="getAttributeSelectOptions[0]" :htmlId="'clientCountry'" :labelText="'Client Country'" />
       <InvoiceAttributeTextArea v-model="localInvoice.clientNote" :htmlId="'clientNote'" :labelText="'Client Note'" />
       <InvoiceAttributeSelect v-model="localInvoice.paymentTerms" :optionList="getAttributeSelectOptions[1]" :htmlId="'paymentTerms'" :labelText="'Payment Terms'" />
       <InvoiceAttributeInput v-model="localInvoice.paymentDate" :inputType="'date'" :htmlId="'paymentDate'" :labelText="'Payment Date'" :isOff="true" />
       <h3 class="mt-5 text-sm text-white text-left font-medium">Products</h3>
       <template v-if="localInvoice.productsList">
-        <div v-for="product in localInvoice.productsList" :key="product.itemId" class="mt-3">
+        <div v-for="(product, ind) in localInvoice.productsList" :key="product.itemId" class="mt-3">
           <div class="flex flex-col p-3 rounded-2xl bg-blue-products relative">
             <InvoiceProductSelect v-model="product.itemName" :optionList="getAttributeSelectOptions[2]" :htmlId="'itemName'" :labelText="'Item Name'" />
-            <InvoiceProductInput v-model="product.itemQuantity" :inputType="'number'" :htmlId="'itemQuantity'" :labelText="'Item Quantity'" />
+            <InvoiceProductInput v-model="product.itemQuantity" @isValid="checkItemIfValid($event, ind)" :inputType="'number'" :htmlId="'itemQuantity'" :labelText="'Item Quantity'" />
             <InvoiceProductInput v-model="product.unitPrice" :inputType="'number'" :htmlId="'unitPrice'" :labelText="'Unit Price'" :isOff="true" />
             <InvoiceProductInput v-model="product.itemTotal" :inputType="'number'" :htmlId="'itemTotal'" :labelText="'Item Total'" :isOff="true" />
             <div class="absolute p-3 right-0 top-0">
@@ -80,6 +80,8 @@ export default {
     return {
       localInvoice: null,
       checkbox: false,
+      invoiceValidator: [-1, -1, -1, -1, -1, -1],
+      itemValidator: null,
     };
   },
   watch: {
@@ -135,10 +137,15 @@ export default {
       });
     },
     goToHome() {
-      this.createInvoice(this.localInvoice);
-      this.$router.push({
-        name: 'Home',
-      });
+      if (this.localInvoice.productsList) {
+        // SPRAWDZIC WARUNEK
+        if (this.invoiceValidator.every((num) => num === 1) && this.itemValidator.every((num) => num === 1) && this.localInvoice.productsList.every((i) => i.itemName !== '*Select item*')) {
+          this.createInvoice(this.localInvoice);
+          this.$router.push({
+            name: 'Home',
+          });
+        } else console.log('correct fields1');
+      } else console.log('correct fields2');
     },
     addProductToInvoice() {
       this.localInvoice.productsList.push({
@@ -149,10 +156,19 @@ export default {
         itemTotal: 0,
       });
       this.incrementId('item');
+      this.itemValidator.push(-1);
     },
     deleteProductFromInvoice(id) {
       const index = this.localInvoice.productsList.findIndex((item) => item.itemId === id);
       this.localInvoice.productsList.splice(index, 1);
+      this.itemValidator.splice(index, 1);
+    },
+    checkInvoiceIfValid(event, nth) {
+      this.invoiceValidator[nth] = event;
+    },
+    checkItemIfValid(event, ind) {
+      this.itemValidator[ind] = event;
+      console.log(this.itemValidator);
     },
   },
   created() {
@@ -170,9 +186,10 @@ export default {
       paymentTerms: '*Select payment*',
       paymentDate: null,
       productsList: [],
-      invoiceTotal: (0.0).toFixed(2),
+      invoiceTotal: 0.0,
     };
     this.incrementId('invoice');
+    this.itemValidator = Array(this.localInvoice.productsList.length).fill(-1);
   },
 };
 </script>
