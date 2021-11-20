@@ -216,7 +216,7 @@ export default createStore({
         state.sortOptions.direction = 'asc';
       }
     },
-    incId(state, payload) {
+    incrementId(state, payload) {
       if (payload === 'invoice') state.ids.invoiceId += 100;
       else if (payload === 'item') state.ids.itemId += 10;
     },
@@ -237,8 +237,8 @@ export default createStore({
     setSortOptions(context, payload) {
       context.commit('setSortOptions', payload);
     },
-    incId(context, payload) {
-      context.commit('incId', payload);
+    incrementId(context, payload) {
+      context.commit('incrementId', payload);
     },
   },
 });

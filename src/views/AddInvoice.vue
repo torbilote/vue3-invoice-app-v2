@@ -98,6 +98,7 @@ export default {
     localProductsList: {
       handler(freshList) {
         const updatedList = freshList;
+        let invoiceTotal = 0;
 
         for (let i = 0; i < updatedList.length; i += 1) {
           const { itemName, itemQuantity } = updatedList[i];
@@ -108,7 +109,10 @@ export default {
           if (itemIndex !== -1) {
             updatedList[i].unitPrice = itemDatabase[itemIndex].price;
             updatedList[i].itemTotal = parseFloat((updatedList[i].unitPrice * itemQuantity).toFixed(2));
+            invoiceTotal += updatedList[i].itemTotal;
           }
+
+          this.localInvoice.invoiceTotal = parseFloat(invoiceTotal.toFixed(2));
         }
       },
       deep: true,
@@ -124,7 +128,7 @@ export default {
     },
   },
   methods: {
-    ...mapActions(['updateInvoice', 'createInvoice', 'incId']),
+    ...mapActions(['createInvoice', 'incrementId']),
     backToHome() {
       this.$router.push({
         name: 'Home',
@@ -144,7 +148,7 @@ export default {
         unitPrice: 0,
         itemTotal: 0,
       });
-      this.incId('item');
+      this.incrementId('item');
     },
     deleteProductFromInvoice(id) {
       const index = this.localInvoice.productsList.findIndex((item) => item.itemId === id);
@@ -166,9 +170,9 @@ export default {
       paymentTerms: '*Select payment*',
       paymentDate: null,
       productsList: [],
-      invoiceTotal: null,
+      invoiceTotal: (0.0).toFixed(2),
     };
-    this.incId('invoice');
+    this.incrementId('invoice');
   },
 };
 </script>

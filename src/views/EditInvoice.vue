@@ -105,6 +105,7 @@ export default {
     localProductsList: {
       handler(freshList) {
         const updatedList = freshList;
+        let invoiceTotal = 0;
 
         for (let i = 0; i < updatedList.length; i += 1) {
           const { itemName, itemQuantity } = updatedList[i];
@@ -115,7 +116,10 @@ export default {
           if (itemIndex !== -1) {
             updatedList[i].unitPrice = itemDatabase[itemIndex].price;
             updatedList[i].itemTotal = parseFloat((updatedList[i].unitPrice * itemQuantity).toFixed(2));
+            invoiceTotal += updatedList[i].itemTotal;
           }
+
+          this.localInvoice.invoiceTotal = parseFloat(invoiceTotal.toFixed(2));
         }
       },
       deep: true,
@@ -131,7 +135,7 @@ export default {
     },
   },
   methods: {
-    ...mapActions(['updateInvoice', 'incId']),
+    ...mapActions(['updateInvoice', 'incrementId']),
     backToInvoiceDetails() {
       this.$router.push({
         name: 'Invoice Details',
