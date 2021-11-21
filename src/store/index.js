@@ -51,14 +51,14 @@ export default createStore({
         productsList: [
           {
             itemId: 30,
-            itemName: 'Black',
+            itemName: 'Black Paint',
             itemQuantity: 1,
             unitPrice: 4.99,
             itemTotal: 4.99,
           },
           {
             itemId: 40,
-            itemName: 'Blue',
+            itemName: 'Blue Paint',
             itemQuantity: 1,
             unitPrice: 4.99,
             itemTotal: 4.99,

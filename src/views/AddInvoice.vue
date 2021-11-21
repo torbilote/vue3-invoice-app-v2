@@ -80,7 +80,7 @@ export default {
     return {
       localInvoice: null,
       checkbox: false,
-      invoiceValidator: [-1, -1, -1, -1, -1, -1],
+      invoiceValidator: [1, -1, -1, -1, -1, -1],
       itemValidator: null,
     };
   },
@@ -137,21 +137,20 @@ export default {
       });
     },
     goToHome() {
-      if (this.localInvoice.productsList) {
-        // SPRAWDZIC WARUNEK
+      if (this.localInvoice.productsList.length > 0) {
         if (this.invoiceValidator.every((num) => num === 1) && this.itemValidator.every((num) => num === 1) && this.localInvoice.productsList.every((i) => i.itemName !== '*Select item*')) {
           this.createInvoice(this.localInvoice);
           this.$router.push({
             name: 'Home',
           });
-        } else console.log('correct fields1');
-      } else console.log('correct fields2');
+        }
+      }
     },
     addProductToInvoice() {
       this.localInvoice.productsList.push({
         itemId: this.getIds.itemId,
         itemName: '*Select item*',
-        itemQuantity: 1,
+        itemQuantity: 0,
         unitPrice: 0,
         itemTotal: 0,
       });

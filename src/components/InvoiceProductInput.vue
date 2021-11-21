@@ -56,11 +56,9 @@ export default {
       return 0;
     },
     emitValue(event) {
-      if (event.target.value) {
-        this.value = event.target.value;
-        this.$emit('update:modelValue', event.target.value);
-        this.$emit('isValid', this.validate(event.target.value));
-      }
+      this.value = event.target.value;
+      this.$emit('update:modelValue', event.target.value);
+      this.$emit('isValid', this.validate(event.target.value));
     },
   },
 };
